@@ -17,6 +17,16 @@ public interface Controllable extends Initialisable {
 	public Boolean movePlayer(Integer playerId, Integer targetNodeId, TicketType ticketType);
 
 	/**
+	 * Function that provides the Id of a node given a location. In this function you will need to 
+	 * find the node whose location is closest to the location provided 
+	 * @param xPosition The x position 
+	 * @param yPosition The y position
+	 * @return The id of the node that is closest to the given position
+	 */
+	public Integer getNodeIdFromLocation(Integer xPosition, Integer yPosition);
+	
+	
+	/**
 	 * Function that when called will save the game to a file
 	 * @param filename The filename that you wish the game to be saved to
 	 * @return True if the file was saved OK. False if there was a problem saving the file
