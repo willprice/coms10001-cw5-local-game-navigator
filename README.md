@@ -17,3 +17,15 @@ We'll have to compromise. Let's only test meaty bits of code. Thankfully eclipse
 has fairly good refactoring support so I think we should still refactor
 aggressively. Let's not let cruft enter the repo, otherwise changing it will be
 difficult
+
+## Todo list
+[Trello board](https://trello.com/b/2dPLIZ0c/scotland-yard-game)
+
+## Scotland Yard resources
+
+* [Rules
+  (Ravensburger)](https://ravensburger01.webtrekk.net/558884580617240/re.pl?t=http%3A%2F%2Fwww.ravensburger.com%3A80%2Fspielanleitungen/ecm/Spielanleitungen/231250%20anl%201326321.pdf&c=de.Service.Spielanleitung.Scotland%20Yard)
+* [Rules (Globetrotter
+games)](http://globetrotter-games.com/index.htm?E&game/rules/eScotYd1.htm)
+* [Scotland Yard
+  (Wiki)](http://en.wikipedia.org/wiki/Scotland_Yard_(board_game))
