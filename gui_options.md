@@ -1,3 +1,7 @@
+---
+layout: index
+---
+
 # GUI Options
 
 * JavaFX 2 (need to install e(fx)clipse for eclipse dev, bit of a pain)
