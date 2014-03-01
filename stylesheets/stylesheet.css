@@ -71,7 +71,7 @@ header {
   border-bottom: solid 1px #275da1;
 }
 
-header h1 {
+header h1, header h1 a {
   letter-spacing: -1px;
   font-size: 72px;
   color: #fff;
@@ -148,6 +148,7 @@ header a.button {
   top: 0;
   background: transparent url(../images/github-button.png) 0 0 no-repeat;
 }
+
 aside a.button {
   width: 138px;
   padding-left: 64px;
