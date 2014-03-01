@@ -1,96 +1,98 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+<head>
+<meta charset='utf-8'>
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-    <!--[if lt IE 9]>
+<!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <title>Scotlang Yard by willprice</title>
-  </head>
+<title>Scotlang Yard by willprice</title>
+</head>
 
-  <body>
-    <header>
-      <div class="inner">
-        <h1>Scotlang Yard</h1>
-        <h2>A virtual rendition of the game &#39;Scotland Yard&#39;</h2>
-        <a href="https://github.com/willprice/Coursework5-LocalGameNavigator" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+<body>
+<header>
+  <div class="inner">
+    <h1>Scotlang Yard</h1>
+    <h2>A virtual rendition of the game &#39;Scotland Yard&#39;</h2>
+    <a href="https://github.com/willprice/Coursework5-LocalGameNavigator" class="button"><small>View project on</small>GitHub</a>
+  </div>
+</header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
-<a name="readme" class="anchor" href="#readme"><span class="octicon octicon-link"></span></a>README</h1>
+<div id="content-wrapper">
+  <div class="inner clearfix">
+    <section id="main-content">
+      <h1>
+        <a name="readme" class="anchor" href="#readme"><span class="octicon octicon-link"></span></a>README</h1>
+      <h2>Index</h2>
+      <ul>
+        <li> <a href="gui_options.html">GUI Options</a></li>
+      </ul>
+      <h2>
+        <a name="development-strategy" class="anchor" href="#development-strategy"><span class="octicon octicon-link"></span></a>Development strategy</h2>
 
-<h2>
-<a name="development-strategy" class="anchor" href="#development-strategy"><span class="octicon octicon-link"></span></a>Development strategy</h2>
+      <p>I propose we use a branching development model being very strict about keeping
+      master clean and only allowing working code inside of it. We should work on the
+      same branch and then when we merge we should notify they other (by email if not
+      in person) once we have a completed part.</p>
 
-<p>I propose we use a branching development model being very strict about keeping
-master clean and only allowing working code inside of it. We should work on the
-same branch and then when we merge we should notify they other (by email if not
-in person) once we have a completed part.</p>
+      <p>I also suggest we also try to keep our commit history clean so we can try things
+      out and incrementally commit them to git. If our experiments don't pan out we
+      should rewrite the history:
+      <a href="http://git-scm.com/book/ch6-4.html">Rewriting git history</a></p>
 
-<p>I also suggest we also try to keep our commit history clean so we can try things
-out and incrementally commit them to git. If our experiments don't pan out we
-should rewrite the history:
-<a href="http://git-scm.com/book/ch6-4.html">Rewriting git history</a></p>
+      <h3>
+        <a name="testing" class="anchor" href="#testing"><span class="octicon octicon-link"></span></a>Testing</h3>
 
-<h3>
-<a name="testing" class="anchor" href="#testing"><span class="octicon octicon-link"></span></a>Testing</h3>
+      <p>Now in an ideal world I'd suggest we test everything and use mock objects. Given
+      that we only have two weeks to implement a full game this isn't going to happen.
+      We'll have to compromise. Let's only test meaty bits of code. Thankfully eclipse
+      has fairly good refactoring support so I think we should still refactor
+      aggressively. Let's not let cruft enter the repo, otherwise changing it will be
+      difficult</p>
 
-<p>Now in an ideal world I'd suggest we test everything and use mock objects. Given
-that we only have two weeks to implement a full game this isn't going to happen.
-We'll have to compromise. Let's only test meaty bits of code. Thankfully eclipse
-has fairly good refactoring support so I think we should still refactor
-aggressively. Let's not let cruft enter the repo, otherwise changing it will be
-difficult</p>
+      <h2>
+        <a name="todo-list" class="anchor" href="#todo-list"><span class="octicon octicon-link"></span></a>Todo list</h2>
 
-<h2>
-<a name="todo-list" class="anchor" href="#todo-list"><span class="octicon octicon-link"></span></a>Todo list</h2>
+      <p><a href="https://trello.com/b/2dPLIZ0c/scotland-yard-game">Trello board</a></p>
 
-<p><a href="https://trello.com/b/2dPLIZ0c/scotland-yard-game">Trello board</a></p>
+      <h2>
+        <a name="scotland-yard-resources" class="anchor" href="#scotland-yard-resources"><span class="octicon octicon-link"></span></a>Scotland Yard resources</h2>
 
-<h2>
-<a name="scotland-yard-resources" class="anchor" href="#scotland-yard-resources"><span class="octicon octicon-link"></span></a>Scotland Yard resources</h2>
+      <ul>
+        <li>
+        <a href="https://ravensburger01.webtrekk.net/558884580617240/re.pl?t=http%3A%2F%2Fwww.ravensburger.com%3A80%2Fspielanleitungen/ecm/Spielanleitungen/231250%20anl%201326321.pdf&amp;c=de.Service.Spielanleitung.Scotland%20Yard">Rules
+          (Ravensburger)</a>
+        English rules start on page 28</li>
+        <li><a href="http://globetrotter-games.com/index.htm?E&amp;game/rules/eScotYd1.htm">Rules (Globetrotter
+          games)</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/Scotland_Yard_(board_game)">Scotland Yard
+          (Wiki)</a></li>
+      </ul>
+    </section>
 
-<ul>
-<li>
-<a href="https://ravensburger01.webtrekk.net/558884580617240/re.pl?t=http%3A%2F%2Fwww.ravensburger.com%3A80%2Fspielanleitungen/ecm/Spielanleitungen/231250%20anl%201326321.pdf&amp;c=de.Service.Spielanleitung.Scotland%20Yard">Rules
-(Ravensburger)</a>
-English rules start on page 28</li>
-<li><a href="http://globetrotter-games.com/index.htm?E&amp;game/rules/eScotYd1.htm">Rules (Globetrotter
-games)</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Scotland_Yard_(board_game)">Scotland Yard
-(Wiki)</a></li>
-</ul>
-        </section>
+    <aside id="sidebar">
+      <a href="https://github.com/willprice/Coursework5-LocalGameNavigator/zipball/master" class="button">
+        <small>Download</small>
+        .zip file
+      </a>
+      <a href="https://github.com/willprice/Coursework5-LocalGameNavigator/tarball/master" class="button">
+        <small>Download</small>
+        .tar.gz file
+      </a>
 
-        <aside id="sidebar">
-          <a href="https://github.com/willprice/Coursework5-LocalGameNavigator/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/willprice/Coursework5-LocalGameNavigator/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+      <p class="repo-owner"><a href="https://github.com/willprice/Coursework5-LocalGameNavigator"></a> is maintained by <a href="https://github.com/willprice">willprice</a>.</p>
 
-          <p class="repo-owner"><a href="https://github.com/willprice/Coursework5-LocalGameNavigator"></a> is maintained by <a href="https://github.com/willprice">willprice</a>.</p>
+    </aside>
+  </div>
+</div>
 
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
-    </div>
 
-  
-  </body>
+</body>
 </html>
