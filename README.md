@@ -25,6 +25,7 @@ difficult
 
 * [Rules
   (Ravensburger)](https://ravensburger01.webtrekk.net/558884580617240/re.pl?t=http%3A%2F%2Fwww.ravensburger.com%3A80%2Fspielanleitungen/ecm/Spielanleitungen/231250%20anl%201326321.pdf&c=de.Service.Spielanleitung.Scotland%20Yard)
+  English rules start on page 28
 * [Rules (Globetrotter
 games)](http://globetrotter-games.com/index.htm?E&game/rules/eScotYd1.htm)
 * [Scotland Yard
