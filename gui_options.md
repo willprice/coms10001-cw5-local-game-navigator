@@ -1,5 +1,5 @@
 ---
-layout: index
+layout: layout
 ---
 
 # GUI Options
@@ -10,7 +10,6 @@ layout: index
   platforms have it.
 * SWT (used to build eclipse), mature, looks quite nice. Not sure how easy it is
   to program a GUI. I've got no experience.
-* 
 
 ## Useful links
 * http://stackoverflow.com/questions/2306190/java-desktop-application-swt-vs-swing
