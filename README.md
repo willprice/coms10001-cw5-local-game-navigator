@@ -1,4 +1,5 @@
 # README
+Website: [willprice.org](www.willprice.org/Coursework5-LocalGameNavigator)
 ## Development strategy
 I propose we use a branching development model being very strict about keeping
 master clean and only allowing working code inside of it. We should work on the
