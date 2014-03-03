@@ -1,3 +1,5 @@
+import javax.swing.SwingUtilities;
+
 
 public class Game {
 
@@ -12,7 +14,7 @@ public class Game {
 		GameState state = new GameState();
 		GUI gui = new GUI();
 		gui.registerMapVisualisable(state);
-		
-		//initialise then start your GUI
+		SwingUtilities.invokeLater(gui);
+
 	}
 }
