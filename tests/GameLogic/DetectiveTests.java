@@ -1,10 +1,15 @@
 package GameLogic;
 
 import static org.junit.Assert.*;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
+import static junitparams.JUnitParamsRunner.$;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(JUnitParamsRunner.class)
 public class DetectiveTests {
 	private Detective detective;
 
@@ -14,39 +19,25 @@ public class DetectiveTests {
 	}
 
 	@Test
-	public void detectiveHasFourUndergroundTokensOnCreation() {
-		assertEquals(4, detective.getUndergroundTokens());
-	}
-
-	@Test
-	public void detectiveHasThreeUndergroundTokensAfterMoveOnUnderground() throws Exception {
-		moveDetective(1, createUndergroundEdge());
-		assertEquals(3, detective.getUndergroundTokens());
-	}
-
-	@Test
-	public void detectiveHasTwoUndergroundTokensAfterMovingTwiceOnUnderground() throws Exception {
-		moveDetective(2, createUndergroundEdge());
-		assertEquals(2, detective.getUndergroundTokens());
-	}
-
-	@Test
-	public void detectiveHasEightBusTicketsOnCreation() throws Exception {
-		assertEquals(8, detective.getBusTokens());
+	@Parameters
+	public void detectivesMovesChangesTheNumberOfTokens(int expectedUndergroundTokens,
+													  int expectedBusTokens,
+													  int numberOfMoves,
+													  Edge edge) throws Exception {
+		moveDetective(numberOfMoves, edge);
+		assertEquals(expectedBusTokens, detective.getBusTokens());
+		assertEquals(expectedUndergroundTokens, detective.getUndergroundTokens());
+		
 	}
 	
-	@Test
-	public void detectiveHasSevenBusTicketsAfterMovingOnBus() throws Exception {
-		moveDetective(1, createBusEdge());
-		assertEquals(7, detective.getBusTokens());
-	}
-	
-	@Test
-	public void detectiveHasSevenBusTicketsAndThreeUndergroundTicketsAfterMovingByBusAndUnderground() throws Exception {
-		moveDetective(1, createUndergroundEdge());
-		moveDetective(1, createBusEdge());
-		assertEquals(3, detective.getUndergroundTokens());
-		assertEquals(7, detective.getBusTokens());
+	@SuppressWarnings("unused")
+	private Object[] parametersForDetectivesMovesChangesTheNumberOfTokens() {
+		return $(
+				$(4, 8, 0, createUndergroundEdge()),
+				$(3, 8, 1, createUndergroundEdge()),
+				$(2, 8, 2, createUndergroundEdge()),
+				$(4, 7, 1, createBusEdge())
+				);
 	}
 
 	private void moveDetective(int numberOfMoves, Edge edge) {
