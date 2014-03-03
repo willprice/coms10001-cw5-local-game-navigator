@@ -1,5 +1,10 @@
+package ScotlandYard;
 import java.io.*;
 import java.util.*;
+
+import GameLogic.Edge;
+import GameLogic.Graph;
+import GameLogic.Node;
 
 /**
  * Class to help read a graph from a file

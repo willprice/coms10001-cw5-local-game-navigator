@@ -1,4 +1,7 @@
+package GameLogic;
 import java.util.*;
+
+import ScotlandYard.MapVisualisable;
 
 
 /**

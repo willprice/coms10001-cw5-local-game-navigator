@@ -1,3 +1,9 @@
+package ScotlandYard;
+import GameLogic.Controllable;
+import GameLogic.Initialisable;
+import GameLogic.PlayerVisualisable;
+import GameLogic.Visualisable;
+
 /**
  * Abstract class that ensures that any inheriting class will be able 
  * to visualise a GameState that implements the correct interfaces. This

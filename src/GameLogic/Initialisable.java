@@ -1,3 +1,4 @@
+package GameLogic;
 /**
  * Interface to enable Initialising the game
  *

@@ -1,3 +1,4 @@
+package GameLogic;
 
 /**
  * Class representing a node of the graph
