@@ -5,9 +5,9 @@
 public class GameState implements MapVisualisable {
 	
 	/**
-	 * Vairable that will hold the filename for the map
+	 * Variable that will hold the filename for the map
 	 */
-	private String mapFilename;
+	private String mapFilename = "map.jpg";
 	
 	
 	/**

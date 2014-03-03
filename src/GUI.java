@@ -1,3 +1,4 @@
+import java.awt.Component;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -5,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -20,56 +22,40 @@ import net.miginfocom.swing.MigLayout;
  * Main visualising class
  *
  */
-public class GUI extends GameVisualiser implements ActionListener{
-		private int windowHeight;
-		private int windowWidth;
-		private MigLayout layout = new MigLayout(
-				new LC(),
-				new AC(),
-				new AC());
-		private JPanel panel = new JPanel(layout);
-		private JFrame window;
-		
-		public void run(){
-			setUpWindow();
-			getDesktopSizes();
-			panel = new JPanel(layout);
-			addComponents(panel);
-			displayWindow();
-		}
+public class GUI extends GameVisualiser {
+	private JFrame window;
+	private JPanel panel;
 
-		private void addMapImageToWindow() {
-			ResizableImageIcon map = new ResizableImageIcon(getClass().getResource("map.jpg"), window);
-			
-		}
+	@Override
+	public void run() {
+		initializeWindow();
+		addMapToWindow();
 
-		private void displayWindow() {
-			window.pack();
-			window.setLocationByPlatform(true);
-			window.setVisible(true);
-		}
+		displayWindow();
+	}
 
-		private void addComponents(JPanel panel) {
-			window.add(panel);
-			addMapImageToWindow();
+	private void addMapToWindow() {
+		URL mapUrl = getClass().getResource(mapVisualisable.getMapFilename());
+		if (mapUrl != null) {
+			JLabel mapLabel = new JLabel(new ImageIcon(mapUrl));
+			panel.add(mapLabel);
+		} else {
+			System.err.println("Could not find map image");
+			System.exit(1);
 		}
+	}
 
-		private void setUpWindow() {
-			window = new JFrame();
-			window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		}
+	private void displayWindow() {
+		window.pack();
+		window.setVisible(true);
+	}
 
-		private void getDesktopSizes() {
-			Rectangle windowBounds = window.getBounds();
-			windowHeight = windowBounds.height;
-			windowWidth = windowBounds.width;
-					
-		}
+	private void initializeWindow() {
+		window = new JFrame();
+		MigLayout layout = new MigLayout(new LC(), new AC(), new AC());
+		panel = new JPanel(layout);
+		window.add(panel);
+	}
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
 
 }
