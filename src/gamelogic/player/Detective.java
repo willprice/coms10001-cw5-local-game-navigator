@@ -1,7 +1,10 @@
 package gamelogic.player;
 
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import scotlandyard.Game;
 import gamelogic.graph.Edge;
 import gamelogic.tickets.BusTicket;
 import gamelogic.tickets.TaxiTicket;
@@ -18,14 +21,18 @@ public class Detective {
 		busTickets = new Stack<>();
 		taxiTickets = new Stack<>();
 		undergroundTickets = new Stack<>();
-		for (int numberOfTickets = 11; numberOfTickets > 0; numberOfTickets --) {
-			taxiTickets.push(new TaxiTicket());
-		}
-		for (int numberOfTickets = 8; numberOfTickets > 0; numberOfTickets --) {
-			busTickets.push(new BusTicket());
-		}
-		for (int numberOfTickets = 4; numberOfTickets > 0; numberOfTickets --) {
-			undergroundTickets.push(new UndergroundTicket());
+		initTickets(11, taxiTickets, TaxiTicket.class);
+		initTickets(8, busTickets, BusTicket.class);
+		initTickets(4, undergroundTickets, UndergroundTicket.class);
+	}
+
+	private <T> void initTickets(int numberOfTickets, Stack<T> tickets, Class<T> ticket) {
+		for (; numberOfTickets > 0; numberOfTickets --) {
+				try {
+					tickets.push(ticket.newInstance());
+				} catch (InstantiationException | IllegalAccessException e) {
+					Logger.getLogger(Game.class.getName()).log(Level.SEVERE, "Cannot add tickets to detective");
+				}
 		}
 	}
 
