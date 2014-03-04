@@ -1,4 +1,4 @@
-package GameLogic;
+package gamelogic.graph;
 
 /**
  * Class representing a node of the graph

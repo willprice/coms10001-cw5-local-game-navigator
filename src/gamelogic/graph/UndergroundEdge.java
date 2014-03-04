@@ -1,4 +1,4 @@
-package GameLogic;
+package gamelogic.graph;
 
 public class UndergroundEdge extends Edge {
 	public UndergroundEdge(String id1, String id2, double weight) {

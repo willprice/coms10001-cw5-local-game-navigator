@@ -1,4 +1,4 @@
-package GameLogic;
+package gamelogic;
 /**
  * Interface that enables certain controllable functionality to the game
  */

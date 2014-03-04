@@ -1,7 +1,7 @@
-package GameLogic;
+package gamelogic;
 import java.util.*;
 
-import ScotlandYard.MapVisualisable;
+import scotlandyard.MapVisualisable;
 
 
 /**

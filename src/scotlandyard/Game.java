@@ -1,9 +1,9 @@
-package ScotlandYard;
+package scotlandyard;
+
+import gamelogic.GameState;
+import gui.GUI;
 
 import javax.swing.SwingUtilities;
-
-import GUI.GUI;
-import GameLogic.GameState;
 
 
 public class Game {

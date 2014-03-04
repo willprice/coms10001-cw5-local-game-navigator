@@ -1,4 +1,4 @@
-package GameLogic;
+package gamelogic.graph;
 
 /**
  * Class that represents a graph edge. The edges 

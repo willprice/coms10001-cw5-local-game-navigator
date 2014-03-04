@@ -1,14 +1,14 @@
-package GameLogic;
+package gamelogic;
 
 import java.util.List;
 
-import ScotlandYard.MapVisualisable;
+import scotlandyard.MapVisualisable;
 
 /**
  * Class that will hold the state of the game. This is the class that will need
  * to implement the interfaces that we have provided you with
  */
-public class GameState implements MapVisualisable, PlayerVisualisable {
+public class GameState implements MapVisualisable, PlayerVisualisable, Visualisable {
 	
 	/**
 	 * Variable that will hold the filename for the map
@@ -56,6 +56,55 @@ public class GameState implements MapVisualisable, PlayerVisualisable {
 
 	@Override
 	public Integer getNodeId(Integer playerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Boolean initialiseGame(Integer numberOfDetectives) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Integer getNumberOfTickets(TicketType type, Integer playerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<TicketType> getMoveList(Integer playerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Boolean isVisible(Integer playerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Boolean isGameOver() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Integer getNextPlayerToMove() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Integer getWinningPlayerId() {
 		// TODO Auto-generated method stub
 		return null;
 	}

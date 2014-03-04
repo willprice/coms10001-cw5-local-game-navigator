@@ -1,4 +1,4 @@
-package ScotlandYard;
+package scotlandyard;
 /**
  * Interfaace to enable the visualisation of the map
  */

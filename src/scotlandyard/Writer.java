@@ -1,12 +1,12 @@
-package ScotlandYard;
+package scotlandyard;
+import gamelogic.graph.Edge;
+import gamelogic.graph.Graph;
+import gamelogic.graph.Node;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
-
-import GameLogic.Edge;
-import GameLogic.Graph;
-import GameLogic.Node;
 
 
 /**

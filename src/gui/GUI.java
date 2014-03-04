@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -15,7 +15,7 @@ import javax.swing.*;
 
 import org.willprice.scotlandyard.guicomponents.ResizableImageIcon;
 
-import ScotlandYard.GameVisualiser;
+import scotlandyard.GameVisualiser;
 import net.miginfocom.layout.AC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
