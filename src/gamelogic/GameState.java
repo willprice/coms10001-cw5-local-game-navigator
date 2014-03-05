@@ -1,8 +1,19 @@
 package gamelogic;
 
+import gamelogic.graph.Graph;
+import gamelogic.graph.Node;
+import gamelogic.player.Detective;
+import gamelogic.player.MrX;
+import gamelogic.player.Player;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import scotlandyard.MapVisualisable;
+import scotlandyard.Reader;
 
 /**
  * Class that will hold the state of the game. This is the class that will need
@@ -14,8 +25,21 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 	 * Variable that will hold the filename for the map
 	 */
 	private String mapFilename = "map.jpg";
+	private List<Detective> detectives = Collections.synchronizedList(new ArrayList<Detective>());
+	private MrX mrX;
+	private List<Integer> mrXIdList;
+	private List<Player> players;
+	private Integer numberOfDetectives;
+	private Graph graph;
+	private List<Node> initialNodes; 
 	
+	public GameState() { }
 	
+	public GameState(int numberOfDetectives) throws IOException {
+		graph = Reader.quickRead("graph.txt");
+		initialiseGame(numberOfDetectives);
+	}
+
 	/**
 	 * Concrete implementation of the MapVisualisable getMapFilename function
 	 * @return The map filename
@@ -42,15 +66,17 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 
 	@Override
 	public List<Integer> getDetectiveIdList() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Integer> detectiveIdList = Collections.synchronizedList(new ArrayList<Integer>());
+		for (Player detective : detectives) {
+			detectiveIdList.add(detective.getPlayerId());
+		}
+		return detectiveIdList;
 	}
 
 
 	@Override
 	public List<Integer> getMrXIdList() {
-		// TODO Auto-generated method stub
-		return null;
+		return mrXIdList;
 	}
 
 
@@ -63,21 +89,74 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 
 	@Override
 	public Boolean initialiseGame(Integer numberOfDetectives) {
-		// TODO Auto-generated method stub
-		return null;
+		this.numberOfDetectives = numberOfDetectives;
+		initialisePlayers();
+		return true;
 	}
 
+	private void initialisePlayers() {
+		initialNodes = Collections.synchronizedList(new ArrayList<Node>());
+		initialiseDetectives();
+		initialiseMrX();
+		initialisePlayerList();
+	}
 
+	private void initialisePlayerList() {
+		players = new ArrayList<>();
+		players.addAll(detectives);
+		players.add(mrX);
+	}
+
+	private void initialiseDetectives() {
+		Collections.copy(initialNodes, graph.nodes());
+		for (int playerId=1; playerId <= numberOfDetectives; ++playerId) {
+			Detective detective = createDetective(playerId);
+			detectives.add(detective);
+		}
+
+	}
+
+	private Detective createDetective(int playerId) {
+		Detective detective = new Detective(playerId);
+		detective.setPosition(getRandomNodeFromInitialNodes());
+		return detective;
+	}
+
+	private Node getRandomNodeFromInitialNodes() {
+		Random randomNumber = new Random();
+
+		int numberOfNodes = initialNodes.size();
+		int randomNodeIndex = randomNumber.nextInt(numberOfNodes);
+		Node node = initialNodes.get(randomNodeIndex);
+		initialNodes.remove(node);
+		return node;
+	}
+
+	private void initialiseMrX() {
+		mrX = new MrX(this, numberOfDetectives + 1);
+		mrX.setPosition(getRandomNodeFromInitialNodes());
+		mrXIdList = Collections.synchronizedList(new ArrayList<Integer>());
+		mrXIdList.add(mrX.getPlayerId());
+	}
+	
 	@Override
 	public Integer getNumberOfTickets(TicketType type, Integer playerId) {
-		// TODO Auto-generated method stub
-		return null;
+		Player player = getPlayer(playerId);
+		return -1;
 	}
 
+
+	private Player getPlayer(Integer playerId) {
+		for (Player player : players) {
+			if (playerId.equals(player.getPlayerId())) {
+				return player;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public List<TicketType> getMoveList(Integer playerId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

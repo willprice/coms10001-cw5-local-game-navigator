@@ -2,26 +2,20 @@ package gamelogic.player;
 
 
 import static org.junit.Assert.*;
-import gamelogic.graph.BusEdge;
 import gamelogic.graph.Edge;
 import gamelogic.graph.TaxiEdge;
 import gamelogic.graph.UndergroundEdge;
-import gamelogic.player.Detective;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import static junitparams.JUnitParamsRunner.$;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(JUnitParamsRunner.class)
-public class DetectiveTests {
-	private Detective detective;
-
-	@Before
+public class DetectiveTests extends PlayerTests {
+	@Override
 	public void setUp() {
-		detective = new Detective();
+		player = new Detective();
 	}
 
 	@Test
@@ -30,11 +24,23 @@ public class DetectiveTests {
 													  int expectedBusTokens,
 													  int expectedTaxiTokens,
 													  int numberOfMoves, Edge edge) throws Exception {
-		moveDetective(numberOfMoves, edge);
-		assertEquals(expectedTaxiTokens, detective.getTaxiTokens());
-		assertEquals(expectedBusTokens, detective.getBusTokens());
-		assertEquals(expectedUndergroundTokens, detective.getUndergroundTokens());
+		movePlayer(numberOfMoves, edge);
+		assertEquals(expectedTaxiTokens, getTaxiTickets());
+		assertEquals(expectedBusTokens, getBusTickets());
+		assertEquals(expectedUndergroundTokens, getUndergroundTickets());
 		
+	}
+
+	private int getUndergroundTickets() {
+		return ((Detective) player).getUndergroundTokens();
+	}
+
+	private int getBusTickets() {
+		return ((Detective) player).getBusTokens();
+	}
+
+	private int getTaxiTickets() {
+		return ((Detective) player).getTaxiTokens();
 	}
 	
 	@SuppressWarnings("unused")
@@ -52,28 +58,35 @@ public class DetectiveTests {
 
 	@Test
 	public void moveOnBusAndUndergroundRemovesTokens() throws Exception {
-		moveDetective(1, createBusEdge());
-		moveDetective(1, createUndergroundEdge());
-		assertEquals(7, detective.getBusTokens());
-		assertEquals(3, detective.getUndergroundTokens());
+		movePlayer(1, createBusEdge());
+		movePlayer(1, createUndergroundEdge());
+		assertEquals(7, getBusTickets());
+		assertEquals(3, getUndergroundTickets());
 	}
 	
-	private TaxiEdge createTaxiEdge() {
-		return new TaxiEdge(null, null, 0, null);
+	@Test
+	public void movingAlongTaxiEdgeIsRecorded() throws Exception {
+		TaxiEdge taxiEdge = createTaxiEdge();
+		movePlayer(1, taxiEdge);
+		assertEquals(taxiEdge, player.getMoveList().get(0));
 	}
-
-	private void moveDetective(int numberOfMoves, Edge edge) {
-		for (int i = 0; i < numberOfMoves; i++) {
-			detective.move(edge);
-		}
+	
+	@Test
+	public void movingAlongUndergroundEdgeIsRecorded() throws Exception {
+		Edge undergroundEdge = createUndergroundEdge();
+		movePlayer(1, undergroundEdge);
+		assertEquals(undergroundEdge, player.getMoveList().get(0));
+		
 	}
-
-	private UndergroundEdge createUndergroundEdge() {
-		return new UndergroundEdge(null, null, 0, null);
-	}
-
-	private BusEdge createBusEdge() {
-		return new BusEdge(null, null, 0, null);
+	
+	@Test
+	public void edgesAreRecordedInOrderOfTraversal() throws Exception {
+		UndergroundEdge undergroundEdge = createUndergroundEdge();
+		TaxiEdge taxiEdge = createTaxiEdge();
+		movePlayer(3, undergroundEdge);
+		movePlayer(1, taxiEdge);
+		assertEquals(undergroundEdge, player.getMoveList().get(0));
+		assertEquals(taxiEdge, player.getMoveList().get(3));
 	}
 	
 }
