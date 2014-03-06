@@ -6,10 +6,12 @@ import gamelogic.player.Detective;
 import gamelogic.player.MrX;
 import gamelogic.player.Player;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import scotlandyard.MapVisualisable;
@@ -32,11 +34,16 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 	private Integer numberOfDetectives;
 	private Graph graph;
 	private List<Node> initialNodes; 
+	private Map<Node, Point> nodeLocations;
 	
 	public GameState() { }
 	
 	public GameState(int numberOfDetectives) throws IOException {
-		graph = Reader.quickRead("graph.txt");
+		Reader reader = new Reader();
+		reader.read("resources/graph.txt");
+		reader.readNodeLocations();
+		graph = reader.graph();
+		nodeLocations = reader.getNodeLocations();
 		initialiseGame(numberOfDetectives);
 	}
 
@@ -52,15 +59,15 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 
 	@Override
 	public Integer getLocationX(Integer nodeId) {
-		// TODO Auto-generated method stub
-		return null;
+		Node node = graph.find(nodeId);
+		return nodeLocations.get(node).x;
 	}
 
 
 	@Override
 	public Integer getLocationY(Integer nodeId) {
-		// TODO Auto-generated method stub
-		return null;
+		Node node = graph.find(nodeId);
+		return nodeLocations.get(node).y;
 	}
 
 
@@ -82,8 +89,8 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 
 	@Override
 	public Integer getNodeId(Integer playerId) {
-		// TODO Auto-generated method stub
-		return null;
+		Player player = getPlayer(playerId);
+		return Integer.parseInt(player.getPosition().name());
 	}
 
 
@@ -95,7 +102,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 	}
 
 	private void initialisePlayers() {
-		initialNodes = Collections.synchronizedList(new ArrayList<Node>());
+		initialNodes = new ArrayList<Node>(graph.nodes());
 		initialiseDetectives();
 		initialiseMrX();
 		initialisePlayerList();
@@ -108,7 +115,6 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 	}
 
 	private void initialiseDetectives() {
-		Collections.copy(initialNodes, graph.nodes());
 		for (int playerId=1; playerId <= numberOfDetectives; ++playerId) {
 			Detective detective = createDetective(playerId);
 			detectives.add(detective);

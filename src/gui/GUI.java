@@ -31,16 +31,33 @@ public class GUI extends GameVisualiser {
 	@Override
 	public void run() {
 		initializeWindow();
-		addMapToWindow();
-
+		drawMap();
+		drawPlayers();
 		displayWindow();
 	}
 
-	private void addMapToWindow() {
+	private void drawPlayers() {
+		drawDetectives();
+		drawMrX();
+	}
+
+	private void drawDetectives() {
+		
+	}
+
+	private void drawMrX() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void drawMap() {
 		URL mapUrl = getClass().getResource("../" + mapVisualisable.getMapFilename());
 		if (mapUrl != null) {
 			JLabel mapLabel = new JLabel(new ImageIcon(mapUrl));
 			panel.add(mapLabel);
+			
+			mapLabel.getIcon();
 		} else {
 			System.err.println("Could not find map image");
 			System.exit(1);

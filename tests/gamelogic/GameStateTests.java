@@ -11,5 +11,5 @@ public class GameStateTests {
 		GameState gameState = new GameState(4);
 		assertEquals(4, gameState.getDetectiveIdList().size());
 	}
-
+	
 }

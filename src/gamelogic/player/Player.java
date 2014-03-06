@@ -43,4 +43,8 @@ public abstract class Player {
 	public void setPosition(Node node) {
 		this.node = node;
 	}
+	
+	public Node getPosition() {
+		return node;
+	}
 }

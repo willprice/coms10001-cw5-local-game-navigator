@@ -3,6 +3,7 @@ import gamelogic.graph.Edge;
 import gamelogic.graph.Graph;
 import gamelogic.graph.Node;
 
+import java.awt.Point;
 import java.io.*;
 import java.util.*;
 
@@ -12,6 +13,7 @@ import java.util.*;
 public class Reader
 {
     private Graph graph;
+    private Map<Node, Point> nodeLocations = new HashMap<>();
 
     /**
      * Function to obtain the loaded graph
@@ -23,6 +25,9 @@ public class Reader
     	return graph;
     }
     
+    public Map<Node, Point> getNodeLocations() {
+    	return nodeLocations;
+    }
 
     /**
      * Function that does the actual reading of the graph.
@@ -88,6 +93,27 @@ public class Reader
         in.close();
     }
     
+    public void readNodeLocations() throws FileNotFoundException {
+    	File file = new File("resources/pos.txt");
+    	Scanner fileContents = new Scanner(file);
+    	
+    	String topLine = fileContents.nextLine();
+    	
+    	while (fileContents.hasNextLine()) {
+    		String line = fileContents.nextLine();
+    		String[] lineContents = line.split(" ");
+    		String nodeId = lineContents[0];
+    		int x = Integer.parseInt(lineContents[1]);
+    		int y = Integer.parseInt(lineContents[2]);
+    		
+    		Node node = graph.find(nodeId);
+    		nodeLocations.put(node, new Point(x, y));
+    	}
+    	
+    	fileContents.close();
+    	
+    }
+    
     /**
      * Convenience function to quickly load a graph without having to instantiate the object
      * saves a bit of code writing
@@ -99,6 +125,7 @@ public class Reader
     {
     	Reader  reader = new Reader();
     	reader.read(filename);
+    	reader.readNodeLocations();
     	return reader.graph();
     }
 
