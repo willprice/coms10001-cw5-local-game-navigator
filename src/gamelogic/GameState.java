@@ -115,7 +115,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 	}
 
 	private void initialiseDetectives() {
-		for (int playerId=1; playerId <= numberOfDetectives; ++playerId) {
+		for (int playerId = 2; playerId <= numberOfDetectives + 1; ++playerId) {
 			Detective detective = createDetective(playerId);
 			detectives.add(detective);
 		}
@@ -139,7 +139,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 	}
 
 	private void initialiseMrX() {
-		mrX = new MrX(this, numberOfDetectives + 1);
+		mrX = new MrX(this);
 		mrX.setPosition(getRandomNodeFromInitialNodes());
 		mrXIdList = Collections.synchronizedList(new ArrayList<Integer>());
 		mrXIdList.add(mrX.getPlayerId());

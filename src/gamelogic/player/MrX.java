@@ -23,12 +23,9 @@ public class MrX extends Player {
 
 	public MrX(GameState gameState) {
 		this.gameState = gameState;
+		playerId = 1;
 		initTickets(5, blackTickets, BlackTicket.class);
 		initTickets(2, doubleMoveTickets, DoubleMoveTicket.class);
-	}
-
-	public MrX(GameState gameState, int playerId) {
-		this(gameState);
 	}
 
 	public int getNumberOfBlackTickets() {
