@@ -2,13 +2,14 @@ package gamelogic.player;
 
 
 import static org.junit.Assert.*;
-import gamelogic.graph.TaxiEdge;
-import gamelogic.graph.UndergroundEdge;
-import gamelogic.tickets.BlackTicket;
-import gamelogic.tickets.DoubleMoveTicket;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.willprice.scotlandyard.gamelogic.graph.TaxiEdge;
+import org.willprice.scotlandyard.gamelogic.graph.UndergroundEdge;
+import org.willprice.scotlandyard.gamelogic.player.MrX;
+import org.willprice.scotlandyard.gamelogic.tickets.BlackTicket;
+import org.willprice.scotlandyard.gamelogic.tickets.DoubleMoveTicket;
 
 public class MrXTests extends PlayerTests {
 	@Override

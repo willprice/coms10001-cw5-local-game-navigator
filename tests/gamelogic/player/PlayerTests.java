@@ -1,11 +1,11 @@
 package gamelogic.player;
 
-import gamelogic.graph.BusEdge;
-import gamelogic.graph.Edge;
-import gamelogic.graph.TaxiEdge;
-import gamelogic.graph.UndergroundEdge;
-
 import org.junit.Before;
+import org.willprice.scotlandyard.gamelogic.graph.BusEdge;
+import org.willprice.scotlandyard.gamelogic.graph.Edge;
+import org.willprice.scotlandyard.gamelogic.graph.TaxiEdge;
+import org.willprice.scotlandyard.gamelogic.graph.UndergroundEdge;
+import org.willprice.scotlandyard.gamelogic.player.Player;
 
 public abstract class PlayerTests {
 

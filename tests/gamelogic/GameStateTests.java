@@ -3,6 +3,7 @@ package gamelogic;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.willprice.scotlandyard.gamelogic.GameState;
 
 public class GameStateTests {
 

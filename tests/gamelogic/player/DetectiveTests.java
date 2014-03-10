@@ -2,14 +2,16 @@ package gamelogic.player;
 
 
 import static org.junit.Assert.*;
-import gamelogic.graph.Edge;
-import gamelogic.graph.TaxiEdge;
-import gamelogic.graph.UndergroundEdge;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import static junitparams.JUnitParamsRunner.$;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.willprice.scotlandyard.gamelogic.graph.Edge;
+import org.willprice.scotlandyard.gamelogic.graph.TaxiEdge;
+import org.willprice.scotlandyard.gamelogic.graph.UndergroundEdge;
+import org.willprice.scotlandyard.gamelogic.player.Detective;
 
 @RunWith(JUnitParamsRunner.class)
 public class DetectiveTests extends PlayerTests {
