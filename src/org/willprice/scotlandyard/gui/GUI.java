@@ -42,6 +42,12 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 		currentPlayerId = visualisable.getNextPlayerToMove();
 	}
 
+	public void redraw() {
+		drawPlayers();
+		mapPanel.revalidate();
+		mapPanel.repaint();
+	}
+
 	private void drawMrXMovesPanel() {
 		JPanel mrXMoves = new JPanel();
 		mrXMoves.setBackground(new Color(0, 0, 244));
@@ -92,6 +98,7 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 		try {
 			mapPanel = new MapPanel("resources/" + mapVisualisable.getMapFilename());
 			mapPanel.addMouseListener(this);
+
 			panel.add(mapPanel);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -99,6 +106,7 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 	}
 
 	private void displayWindow() {
+		window.add(panel);
 		window.pack();
 		window.setVisible(true);
 	}
@@ -108,9 +116,6 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 		
 		MigLayout layout = new MigLayout(new LC().flowY().wrapAfter(2), new AC().grow().fill(), new AC().grow().fill());
 		panel = new JPanel(layout);
-
-		JScrollPane scrollPane = new JScrollPane(panel);
-		window.setContentPane(scrollPane);
 	}
 
 	private void initaliseSelectTicketWindow() {

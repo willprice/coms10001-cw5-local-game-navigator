@@ -1,7 +1,16 @@
 package org.willprice.scotlandyard.gamelogic;
 
 import java.awt.Point;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Writer;
+import java.lang.reflect.Field;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +26,9 @@ import org.willprice.scotlandyard.gamelogic.graph.Edge.EdgeType;
 import org.willprice.scotlandyard.gamelogic.player.Detective;
 import org.willprice.scotlandyard.gamelogic.player.MrX;
 import org.willprice.scotlandyard.gamelogic.player.Player;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.path.Path;
 
 /**
  * Class that will hold the state of the game. This is the class that will need
@@ -257,14 +269,53 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 
 	@Override
 	public Boolean saveGame(String filename) {
-		// TODO Auto-generated method stub
-		return null;
+		XStream xstream = new XStream();
+		try {
+			Writer writer = new FileWriter("save_game.sy");
+            ObjectOutputStream out = xstream.createObjectOutputStream(writer);
+            out.writeObject(mapFilename);
+            out.writeObject(detectives);
+            out.writeObject(mrX);
+            out.writeObject(mrXIdList);
+            out.writeObject(players);
+            out.writeObject(numberOfDetectives);
+            out.writeObject(graph);
+            out.writeObject(initialNodes);
+            out.writeObject(nodeLocations);
+            out.writeObject(currentPlayerId);
+            out.close();
+		} catch (Exception e) {
+			System.err.println("Could not write save game file");
+			return false;
+		}
+		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean loadGame(String filename) {
-		// TODO Auto-generated method stub
-		return null;
+		XStream xstream = new XStream();
+		try {
+			FileReader reader = new FileReader("save_game.sy");
+			ObjectInputStream in = xstream.createObjectInputStream(reader);
+			mapFilename = (String) in.readObject();
+			detectives = (List<Detective>) in.readObject();
+			mrX = (MrX) in.readObject();
+			mrXIdList = (List<Integer>) in.readObject();
+			players = (List<Player>) in.readObject();
+			numberOfDetectives = (Integer) in.readObject();
+			graph = (Graph) in.readObject();
+			initialNodes = (List<Node>) in.readObject();
+			nodeLocations = (Map<Node, Point>) in.readObject();
+			currentPlayerId = (int) in.readObject();
+			in.close();
+					
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Could not load save game file");
+			return false;
+		}
+		return true;
 	}
 
 }
