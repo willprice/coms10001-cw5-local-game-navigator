@@ -28,7 +28,6 @@ public class MapPanel extends JPanel {
 		map = ImageIO.read(imageFile);
 		mapSize = new Dimension(map.getWidth(), map.getHeight());
 		setPreferredSize(mapSize);
-		setMinimumSize(mapSize);
         detectiveImage = ImageIO.read(new File("resources/red_detective.png"));
         mrXImage = ImageIO.read(new File("resources/mr_x.png"));
 	}

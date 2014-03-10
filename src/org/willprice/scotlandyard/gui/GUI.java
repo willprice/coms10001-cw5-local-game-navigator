@@ -1,5 +1,6 @@
 package org.willprice.scotlandyard.gui;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 import org.willprice.scotlandyard.gamelogic.GameVisualiser;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
@@ -45,13 +47,13 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 	private void drawMrXMovesPanel() {
 		JPanel mrXMoves = new JPanel();
 		mrXMoves.setBackground(new Color(0, 0, 244));
-		panel.add(mrXMoves, new CC().growX().growY().spanY(2).width("30%"));
+		panel.add(mrXMoves, new CC().growX().growY().spanY(2).width("20%"));
 	}
 
 	private void drawInformationPanel() {
 		JPanel informationPanel = new InformationPanel();
 		informationPanel.setBackground(new Color(244, 0, 0));
-		panel.add(informationPanel, new CC().growX().growY().height("20%"));
+		panel.add(informationPanel, new CC().growX().height("20%"));
 	}
 
 	private void drawPlayers() {
@@ -92,13 +94,16 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 		try {
 			mapPanel = new MapPanel("resources/" + mapVisualisable.getMapFilename());
 			mapPanel.addMouseListener(this);
-			panel.add(mapPanel);
+			
+			JScrollPane scrollPane = new JScrollPane(mapPanel);
+			panel.add(scrollPane, new CC().height("80%"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void displayWindow() {
+		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		window.pack();
 		window.setVisible(true);
 	}
@@ -109,8 +114,7 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 		MigLayout layout = new MigLayout(new LC().flowY().wrapAfter(2), new AC().grow().fill(), new AC().grow().fill());
 		panel = new JPanel(layout);
 
-		JScrollPane scrollPane = new JScrollPane(panel);
-		window.setContentPane(scrollPane);
+		window.add(panel);
 	}
 
 	private void initaliseSelectTicketWindow() {
