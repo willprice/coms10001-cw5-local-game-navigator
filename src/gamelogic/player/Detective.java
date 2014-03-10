@@ -3,17 +3,15 @@ package gamelogic.player;
 import java.util.Stack;
 
 import gamelogic.graph.Edge;
-import gamelogic.graph.Node;
-import gamelogic.tickets.Ticket;
 import gamelogic.tickets.BusTicket;
 import gamelogic.tickets.TaxiTicket;
 import gamelogic.tickets.UndergroundTicket;
 
 public class Detective extends Player {
 
-	Stack<BusTicket> busTickets;
-	Stack<TaxiTicket> taxiTickets;
-	Stack<UndergroundTicket> undergroundTickets;
+	public Stack<BusTicket> busTickets;
+	public Stack<TaxiTicket> taxiTickets;
+	public Stack<UndergroundTicket> undergroundTickets;
 
 	public Detective() {
 		busTickets = new Stack<>();

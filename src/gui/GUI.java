@@ -1,24 +1,15 @@
 package gui;
+import gamelogic.tickets.Ticket;
+
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-
-import org.willprice.scotlandyard.guicomponents.ResizableImageIcon;
 
 import scotlandyard.GameVisualiser;
 import net.miginfocom.layout.AC;
@@ -30,19 +21,25 @@ import net.miginfocom.swing.MigLayout;
  * Main visualising class
  *
  */
-public class GUI extends GameVisualiser {
+public class GUI extends GameVisualiser implements MouseListener, SelectTicketTypePanelDelegate {
 	private JFrame window;
 	private JPanel panel;
 	private MapPanel mapPanel;
+	private int currentPlayerId;
+	private JFrame selectTicketFrame;
+	private int targetNodeId;
 
 	@Override
 	public void run() {
 		initializeWindow();
+		initaliseSelectTicketWindow();
 		drawMap();
 		drawPlayers();
 		drawInformationPanel();
 		drawMrXMovesPanel();
 		displayWindow();
+		
+		currentPlayerId = visualisable.getNextPlayerToMove();
 	}
 
 	private void drawMrXMovesPanel() {
@@ -91,11 +88,11 @@ public class GUI extends GameVisualiser {
 		
 	}
 
-
 	private void drawMap() {
 		try {
 			mapPanel = new MapPanel("resources/" + mapVisualisable.getMapFilename());
-			panel.add(mapPanel, new CC().growX());
+			mapPanel.addMouseListener(this);
+			panel.add(mapPanel);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -108,10 +105,55 @@ public class GUI extends GameVisualiser {
 
 	private void initializeWindow() {
 		window = new JFrame();
+		
 		MigLayout layout = new MigLayout(new LC().flowY().wrapAfter(2), new AC().grow().fill(), new AC().grow().fill());
 		panel = new JPanel(layout);
-		window.add(panel);
-}
 
+		JScrollPane scrollPane = new JScrollPane(panel);
+		window.setContentPane(scrollPane);
+	}
 
+	private void initaliseSelectTicketWindow() {
+		selectTicketFrame = new JFrame();
+		SelectTicketTypePanel ticketPanel = new SelectTicketTypePanel();
+		ticketPanel.setDelegate(this);
+		selectTicketFrame.getContentPane().add(ticketPanel);
+		selectTicketFrame.pack();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (e.getComponent().equals(mapPanel)) {
+			int x = e.getX();
+			int y = e.getY();
+
+			selectTicketFrame.setVisible(true);
+			targetNodeId = controllable.getNodeIdFromLocation(x, y);
+		}
+	}
+
+	@Override
+	public void ticketTypePanelSelected(Ticket ticket) {
+		selectTicketFrame.dispose();
+		controllable.movePlayer(currentPlayerId, targetNodeId, ticket.getTicketType());
+		System.out.println("Ticket type: " + ticket.getTicketType().toString());
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
+	
 }

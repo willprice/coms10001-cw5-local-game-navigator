@@ -2,19 +2,18 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class MapPanel extends JPanel {
+	private static final long serialVersionUID = 8872624079855647816L;
+
 	private BufferedImage map;
 	private Dimension mapSize;
 	private BufferedImage mrXImage;
@@ -29,6 +28,7 @@ public class MapPanel extends JPanel {
 		map = ImageIO.read(imageFile);
 		mapSize = new Dimension(map.getWidth(), map.getHeight());
 		setPreferredSize(mapSize);
+		setMinimumSize(mapSize);
         detectiveImage = ImageIO.read(new File("resources/red_detective.png"));
         mrXImage = ImageIO.read(new File("resources/mr_x.png"));
 	}

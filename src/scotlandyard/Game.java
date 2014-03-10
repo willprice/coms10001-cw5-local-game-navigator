@@ -22,6 +22,8 @@ public class Game {
 		GUI gui = new GUI();
 		gui.registerMapVisualisable(state);
 		gui.registerPlayerVisualisable(state);
+		gui.registerControllable(state);
+		gui.registerVisualisable(state);
 		SwingUtilities.invokeLater(gui);
 	}
 }

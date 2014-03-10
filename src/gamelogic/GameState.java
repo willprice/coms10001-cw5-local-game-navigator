@@ -1,5 +1,7 @@
 package gamelogic;
 
+import gamelogic.graph.Edge;
+import gamelogic.graph.Edge.EdgeType;
 import gamelogic.graph.Graph;
 import gamelogic.graph.Node;
 import gamelogic.player.Detective;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import scotlandyard.MapVisualisable;
@@ -21,7 +24,7 @@ import scotlandyard.Reader;
  * Class that will hold the state of the game. This is the class that will need
  * to implement the interfaces that we have provided you with
  */
-public class GameState implements MapVisualisable, PlayerVisualisable, Visualisable {
+public class GameState implements MapVisualisable, PlayerVisualisable, Visualisable, Controllable {
 	
 	/**
 	 * Variable that will hold the filename for the map
@@ -35,6 +38,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 	private Graph graph;
 	private List<Node> initialNodes; 
 	private Map<Node, Point> nodeLocations;
+	private int currentPlayerId = -1;
 	
 	public GameState() { }
 	
@@ -183,13 +187,84 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 
 	@Override
 	public Integer getNextPlayerToMove() {
-		// TODO Auto-generated method stub
-		return null;
+		if (currentPlayerId == -1) {
+			currentPlayerId = 2;
+		} else {
+			++currentPlayerId;
+		}
+		return currentPlayerId;
 	}
 
 
 	@Override
 	public Integer getWinningPlayerId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean movePlayer(Integer playerId, Integer targetNodeId, TicketType ticketType) {
+		Player player = getPlayer(playerId);
+		
+		List<Edge> currentlyConnectedEdges = graph.edges(player.getPosition().name());
+		Edge edgeToTravelAlong = findNodeToTravelAlong(targetNodeId, ticketType, currentlyConnectedEdges);
+		
+		// TODO: Implement actually moving player
+		return true;
+	}
+	
+	private Edge findNodeToTravelAlong(Integer targetNodeId, TicketType ticketType, List<Edge> currentlyConnectedEdges) {
+		for (Edge edge : currentlyConnectedEdges) {
+			if (edge.connectsNode(Integer.toString(targetNodeId)) && edgeTypeEqualsTicketType(edge.type(), ticketType)){
+				return edge;
+			}
+		}
+		return null;
+	}
+	
+	private boolean edgeTypeEqualsTicketType(EdgeType edgeType, TicketType ticketType) {
+		return (edgeType.toString().equals(ticketType.toString()));
+	}
+
+	@Override
+	public Integer getNodeIdFromLocation(Integer xPosition, Integer yPosition) {
+		Point point = new Point(xPosition, yPosition);
+		for (Entry<Node, Point> entry : nodeLocations.entrySet()) {
+			if (clickIsWithinNodeFuzzyBounds(point, entry)) {
+				Node node = entry.getKey();
+				int nodeId = Integer.parseInt(node.name());
+				System.out.println(nodeId);
+				return nodeId;
+			}
+		}
+		return null;
+	}
+
+	private boolean clickIsWithinNodeFuzzyBounds(Point clickPoint, Entry<Node, Point> entry) {
+		Point nodePoint = entry.getValue();
+		if (clickIsWithinNodeXBound(clickPoint, nodePoint) && clickIsWithinNodeYBound(clickPoint, nodePoint)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean clickIsWithinNodeXBound(Point clickPoint, Point nodePoint) {
+		return ((clickPoint.x >= (nodePoint.x - 10)) && (clickPoint.x <= (nodePoint.x + 10)));
+	}
+
+    private boolean clickIsWithinNodeYBound(Point clickPoint, Point nodePoint) {
+		return ((clickPoint.y >= (nodePoint.y - 10)) && (clickPoint.y <= (nodePoint.y + 10)));
+	}
+
+	@Override
+	public Boolean saveGame(String filename) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean loadGame(String filename) {
 		// TODO Auto-generated method stub
 		return null;
 	}
