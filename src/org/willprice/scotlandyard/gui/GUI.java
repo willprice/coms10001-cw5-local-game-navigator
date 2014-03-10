@@ -111,6 +111,7 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 	private void displayWindow() {
 		window.add(panel);
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		window.pack();
 		window.setVisible(true);
 	}
@@ -120,7 +121,6 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 		
 		MigLayout layout = new MigLayout(new LC().flowY().wrapAfter(2), new AC().grow().fill(), new AC().grow().fill());
 		panel = new JPanel(layout);
-
 
 		window.add(panel);
 	}
@@ -133,7 +133,6 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 		selectTicketFrame.pack();
 	}
 
-	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getComponent().equals(mapPanel)) {
 			int x = e.getX();
@@ -144,28 +143,15 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 		}
 	}
 
-	@Override
 	public void ticketTypePanelSelected(Ticket ticket) {
 		selectTicketFrame.dispose();
 		controllable.movePlayer(currentPlayerId, targetNodeId, ticket.getTicketType());
 		System.out.println("Ticket type: " + ticket.getTicketType().toString());
 	}
 	
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-
+	public void mousePressed(MouseEvent e) { }
+	public void mouseReleased(MouseEvent e) { }
+	public void mouseEntered(MouseEvent e) { }
+	public void mouseExited(MouseEvent e) { }
 	
 }
