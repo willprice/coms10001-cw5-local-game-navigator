@@ -1,18 +1,13 @@
 package org.willprice.scotlandyard.gamelogic;
 
 import java.awt.Point;
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Writer;
-import java.lang.reflect.Field;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,7 +23,6 @@ import org.willprice.scotlandyard.gamelogic.player.MrX;
 import org.willprice.scotlandyard.gamelogic.player.Player;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.path.Path;
 
 /**
  * Class that will hold the state of the game. This is the class that will need
@@ -40,7 +34,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 	 * Variable that will hold the filename for the map
 	 */
 	private String mapFilename = "map.jpg";
-	private List<Detective> detectives = Collections.synchronizedList(new ArrayList<Detective>());
+	private List<Detective> detectives = new ArrayList<>();
 	private MrX mrX;
 	private List<Integer> mrXIdList;
 	private List<Player> players;
@@ -87,7 +81,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 
 	@Override
 	public List<Integer> getDetectiveIdList() {
-		List<Integer> detectiveIdList = Collections.synchronizedList(new ArrayList<Integer>());
+		List<Integer> detectiveIdList = new ArrayList<>();
 		for (Player detective : detectives) {
 			detectiveIdList.add(detective.getPlayerId());
 		}
@@ -155,7 +149,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable, Visualisa
 	private void initialiseMrX() {
 		mrX = new MrX(this);
 		mrX.setPosition(getRandomNodeFromInitialNodes());
-		mrXIdList = Collections.synchronizedList(new ArrayList<Integer>());
+		mrXIdList = new ArrayList<>();
 		mrXIdList.add(mrX.getPlayerId());
 	}
 	

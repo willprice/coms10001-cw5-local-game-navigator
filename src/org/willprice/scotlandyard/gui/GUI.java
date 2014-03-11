@@ -2,6 +2,8 @@ package org.willprice.scotlandyard.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -23,7 +25,7 @@ import net.miginfocom.swing.MigLayout;
  * Main visualising class
  *
  */
-public class GUI extends GameVisualiser implements MouseListener, SelectTicketTypePanelDelegate {
+public class GUI extends GameVisualiser implements MouseListener, SelectTicketTypePanelDelegate, ActionListener {
 	private JFrame window;
 	private JPanel panel;
 	private MapPanel mapPanel;
@@ -60,6 +62,14 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 		JPanel informationPanel = new InformationPanel();
 		informationPanel.setBackground(new Color(244, 0, 0));
 		panel.add(informationPanel, new CC().growX().height("20%"));
+		JButton button = new JButton("Load");
+		button.setActionCommand("load");
+		JButton save = new JButton("Save");
+		button.addActionListener(this);
+		save.addActionListener(this);
+		save.setActionCommand("save");
+		informationPanel.add(button);
+		informationPanel.add(save);
 	}
 
 	private void drawPlayers() {
@@ -153,5 +163,15 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 	public void mouseReleased(MouseEvent e) { }
 	public void mouseEntered(MouseEvent e) { }
 	public void mouseExited(MouseEvent e) { }
+
+	public void actionPerformed(ActionEvent e) { 
+		if (e.getActionCommand().equals("save")) {
+			controllable.saveGame("");
+		}
+		else {
+			controllable.loadGame("");
+			redraw();
+		}
+	}
 	
 }

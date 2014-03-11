@@ -14,7 +14,7 @@ import org.willprice.scotlandyard.gamelogic.graph.Node;
 public abstract class Player {
 
 	protected int playerId;
-	protected List<Edge> moves = Collections.synchronizedList(new ArrayList<Edge>());
+	protected List<Edge> moves = new ArrayList<Edge>();
 	private Node node;
 
 	protected <T> void initTickets(int numberOfTickets, Stack<T> tickets, Class<T> ticket) {

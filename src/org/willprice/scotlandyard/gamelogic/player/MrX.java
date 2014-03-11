@@ -19,7 +19,7 @@ public class MrX extends Player {
 	private GameState gameState;
 	private Stack<BlackTicket> blackTickets = new Stack<>();
 	private Stack<DoubleMoveTicket> doubleMoveTickets = new Stack<>();
-	private List<Edge> blackTicketEdges = Collections.synchronizedList(new ArrayList<Edge>());
+	private List<Edge> blackTicketEdges = new ArrayList<Edge>();
 
 	public MrX(GameState gameState) {
 		this.gameState = gameState;
