@@ -4,7 +4,7 @@ import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
 
 public class UndergroundTicket extends Ticket {
 	public UndergroundTicket() {
-		this.type = TicketType.Underground; 
+		this.type = TicketType.Underground;
 	}
 
 }

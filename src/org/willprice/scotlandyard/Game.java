@@ -7,18 +7,15 @@ import javax.swing.SwingUtilities;
 import org.willprice.scotlandyard.gamelogic.GameState;
 import org.willprice.scotlandyard.gui.GUI;
 
-
 public class Game {
 
 	public static void main(String[] args) throws IOException {
 		Game game = new Game();
 		game.run();
 	}
-	
-	
-	public void run() throws IOException
-	{
-		GameState state = new GameState(4);
+
+	public void run() throws IOException {
+		GameState state = new GameState(1);
 		GUI gui = new GUI();
 		gui.registerMapVisualisable(state);
 		gui.registerPlayerVisualisable(state);

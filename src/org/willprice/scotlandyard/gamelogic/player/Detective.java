@@ -5,6 +5,7 @@ import java.util.Stack;
 import org.willprice.scotlandyard.gamelogic.graph.Edge;
 import org.willprice.scotlandyard.gamelogic.tickets.BusTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.TaxiTicket;
+import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
 import org.willprice.scotlandyard.gamelogic.tickets.UndergroundTicket;
 
 public class Detective extends Player {
@@ -59,15 +60,29 @@ public class Detective extends Player {
 
 	private void removeTicket(Edge edge) {
 		switch (edge.type()) {
-			case Underground: 
-				useUndergroundTicket();
-				break;
-			case Bus: 
-				useBusTicket();
-				break;
-			case Taxi: 
-				useTaxiTicket();
-				break;
+		case Underground:
+			useUndergroundTicket();
+			break;
+		case Bus:
+			useBusTicket();
+			break;
+		case Taxi:
+			useTaxiTicket();
+			break;
+		}
+	}
+
+	@Override
+	public boolean hasTicket(Ticket ticket) {
+		switch (ticket.getTicketType()) {
+		case Bus:
+			return busTickets.size() > 0;
+		case Taxi:
+			return taxiTickets.size() > 0;
+		case Underground:
+			return undergroundTickets.size() > 0;
+		default:
+			return false;
 		}
 	}
 }

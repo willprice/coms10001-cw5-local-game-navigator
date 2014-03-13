@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import org.willprice.scotlandyard.Game;
 import org.willprice.scotlandyard.gamelogic.graph.Edge;
 import org.willprice.scotlandyard.gamelogic.graph.Node;
+import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
 
 public abstract class Player {
 
@@ -17,13 +18,15 @@ public abstract class Player {
 	protected List<Edge> moves = new ArrayList<Edge>();
 	private Node node;
 
-	protected <T> void initTickets(int numberOfTickets, Stack<T> tickets, Class<T> ticket) {
-		for (; numberOfTickets > 0; numberOfTickets --) {
-				try {
-					tickets.push(ticket.newInstance());
-				} catch (InstantiationException | IllegalAccessException e) {
-					Logger.getLogger(Game.class.getName()).log(Level.SEVERE, "Cannot add tickets to detective");
-				}
+	protected <T> void initTickets(int numberOfTickets, Stack<T> tickets,
+			Class<T> ticket) {
+		for (; numberOfTickets > 0; numberOfTickets--) {
+			try {
+				tickets.push(ticket.newInstance());
+			} catch (InstantiationException | IllegalAccessException e) {
+				Logger.getLogger(Game.class.getName()).log(Level.SEVERE,
+						"Cannot add tickets to detective");
+			}
 		}
 	}
 
@@ -34,7 +37,7 @@ public abstract class Player {
 	public List<Edge> getMoveList() {
 		return moves;
 	}
-	
+
 	public void move(Edge edge) {
 		moves.add(edge);
 	}
@@ -42,8 +45,10 @@ public abstract class Player {
 	public void setPosition(Node node) {
 		this.node = node;
 	}
-	
+
 	public Node getPosition() {
 		return node;
 	}
+
+	abstract public boolean hasTicket(Ticket ticket);
 }

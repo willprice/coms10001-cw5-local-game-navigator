@@ -3,17 +3,26 @@ package org.willprice.scotlandyard.gui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class MapPanel extends JPanel {
+import org.willprice.scotlandyard.gamelogic.Controllable;
+import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
+
+public class MapPanel extends JPanel implements MouseListener {
 	private static final long serialVersionUID = 8872624079855647816L;
 
+	private SelectTicketFrame selectTicketFrame;
 	private BufferedImage map;
 	private Dimension mapSize;
 	private BufferedImage mrXImage;
@@ -22,16 +31,26 @@ public class MapPanel extends JPanel {
 	private Point mrXPosition;
 	private double xScaleFactor;
 	private double yScaleFactor;
-	
-	public MapPanel(String filename) throws IOException {
-		File imageFile = new File(filename);
+	private GUI gui;
+
+	private Integer targetNodeId;
+
+	public MapPanel(String filename, GUI gui) throws IOException {
+		this.gui = gui;
+		readImages(filename);
+		setPreferredSize(mapSize);
+		selectTicketFrame = new SelectTicketFrame(gui);
+		addMouseListener(this);
+	}
+
+	private void readImages(String mapFilename) throws IOException {
+		File imageFile = new File(mapFilename);
+		detectiveImage = ImageIO.read(new File("resources/red_detective.png"));
+		mrXImage = ImageIO.read(new File("resources/mr_x.png"));
 		map = ImageIO.read(imageFile);
 		mapSize = new Dimension(map.getWidth(), map.getHeight());
-		setPreferredSize(mapSize);
-        detectiveImage = ImageIO.read(new File("resources/red_detective.png"));
-        mrXImage = ImageIO.read(new File("resources/mr_x.png"));
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -42,14 +61,18 @@ public class MapPanel extends JPanel {
 	}
 
 	private void paintMrX(Graphics g) {
-		paintPlayer(g, mrXPosition, mrXImage);
+		int mrXPlayerId = 1;
+		if (gui.getVisualisable().isVisible(mrXPlayerId)) {
+			paintPlayer(g, mrXPosition, mrXImage);
+		}
 	}
 
 	private void paintDetective(Graphics g, Point detectiveLocation) {
 		paintPlayer(g, detectiveLocation, detectiveImage);
 	}
 
-	private void paintPlayer(Graphics g, Point playerLocation, BufferedImage playerImage) {
+	private void paintPlayer(Graphics g, Point playerLocation,
+			BufferedImage playerImage) {
 		int width = calculateScaledImageWidth(playerImage);
 		int height = calculateScaledImageHeight(playerImage);
 		int x = calculateScaledImageXPosition(playerLocation, width);
@@ -74,9 +97,7 @@ public class MapPanel extends JPanel {
 		}
 	}
 
-
-	private int calculateScaledImageYPosition(Point point,
-			int height) {
+	private int calculateScaledImageYPosition(Point point, int height) {
 		return (int) (point.y * yScaleFactor - height / 2 - 20);
 	}
 
@@ -91,6 +112,7 @@ public class MapPanel extends JPanel {
 	private int calculateScaledImageWidth(BufferedImage image) {
 		return (int) (image.getWidth() * xScaleFactor);
 	}
+
 	public void drawDetectives(List<Point> playerLocations) {
 		this.detectiveLocations = playerLocations;
 		redrawPanel();
@@ -105,4 +127,44 @@ public class MapPanel extends JPanel {
 		this.mrXPosition = mrXPosition;
 		redrawPanel();
 	}
+
+	public void mouseClicked(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		targetNodeId = gui.getControllable().getNodeIdFromLocation(x, y);
+
+		if (targetNodeId != null) {
+			selectTicketFrame.setVisible(true);
+		}
+	}
+
+	public void movePlayer(Ticket ticket) {
+		Boolean move = gui.getControllable().movePlayer(
+				gui.getCurrentPlayerId(), targetNodeId, ticket.getTicketType());
+		if (move) {
+			System.out.println("Yes, we moved!");
+			gui.redraw();
+			gui.updateCurrentPlayer();
+		} else {
+			System.out.println("Can't move! :D");
+		}
+
+	}
+
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	public void mouseExited(MouseEvent e) {
+	}
+
+	public void mousePressed(MouseEvent e) {
+	}
+
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	public Dimension getMapSize() {
+		return mapSize;
+	}
+
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
+import java.util.Vector;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.willprice.scotlandyard.gamelogic.GameState;
@@ -35,13 +36,13 @@ public class MrX extends Player {
 	public int getNumberOfDoubleMoveTickets() {
 		return doubleMoveTickets.size();
 	}
-	
+
 	public void move(Edge edge, Ticket ticket) {
 		super.move(edge);
 		switch (ticket.getTicketType()) {
-			case SecretMove:
-				blackTickets.pop();
-				blackTicketEdges.add(edge);
+		case SecretMove:
+			blackTickets.pop();
+			blackTicketEdges.add(edge);
 		}
 	}
 
@@ -53,5 +54,23 @@ public class MrX extends Player {
 
 	public List<Edge> getBlackTicketEdges() {
 		return blackTicketEdges;
+	}
+
+	@Override
+	public boolean hasTicket(Ticket ticket) {
+		switch (ticket.getTicketType()) {
+		case Bus:
+			return gameState.getBusDiscardStackSize() > 0;
+		case Taxi:
+			return gameState.getTaxiDiscardStackSize() > 0;
+		case Underground:
+			return gameState.getUndergroundDiscardStackSize() > 0;
+		case SecretMove:
+			return blackTickets.size() > 0;
+		case DoubleMove:
+			return doubleMoveTickets.size() > 0;
+		default:
+			return false;
+		}
 	}
 }

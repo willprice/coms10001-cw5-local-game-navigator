@@ -18,7 +18,6 @@ public abstract class PlayerTests {
 	@Before
 	public abstract void setUp();
 
-
 	protected void movePlayer(int numberOfMoves, Edge edge) {
 		for (int i = 0; i < numberOfMoves; i++) {
 			player.move(edge);

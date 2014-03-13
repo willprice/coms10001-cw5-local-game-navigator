@@ -1,4 +1,5 @@
 package org.willprice.scotlandyard.gui;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -13,7 +14,9 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
+import org.willprice.scotlandyard.gamelogic.Controllable;
 import org.willprice.scotlandyard.gamelogic.GameVisualiser;
+import org.willprice.scotlandyard.gamelogic.Visualisable;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
 
 import net.miginfocom.layout.AC;
@@ -23,33 +26,33 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * Main visualising class
- *
+ * 
  */
-public class GUI extends GameVisualiser implements MouseListener, SelectTicketTypePanelDelegate, ActionListener {
+public class GUI extends GameVisualiser {
 	private JFrame window;
 	private JPanel panel;
 	private MapPanel mapPanel;
-	private int currentPlayerId;
-	private JFrame selectTicketFrame;
-	private int targetNodeId;
+	private Integer currentPlayerId;
+	int targetNodeId;
+	private InformationPanel informationPanel;
 
 	@Override
 	public void run() {
+		setCurrentPlayerId(visualisable.getNextPlayerToMove());
 		initializeWindow();
-		initaliseSelectTicketWindow();
 		drawMap();
 		drawPlayers();
 		drawInformationPanel();
 		drawMrXMovesPanel();
 		displayWindow();
-		
-		currentPlayerId = visualisable.getNextPlayerToMove();
+
 	}
 
 	public void redraw() {
 		drawPlayers();
-		mapPanel.revalidate();
-		mapPanel.repaint();
+		getMapPanel().revalidate();
+		getMapPanel().repaint();
+		informationPanel.updateLabel(getCurrentPlayerId());
 	}
 
 	private void drawMrXMovesPanel() {
@@ -59,17 +62,9 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 	}
 
 	private void drawInformationPanel() {
-		JPanel informationPanel = new InformationPanel();
+		informationPanel = new InformationPanel(this);
 		informationPanel.setBackground(new Color(244, 0, 0));
 		panel.add(informationPanel, new CC().growX().height("20%"));
-		JButton button = new JButton("Load");
-		button.setActionCommand("load");
-		JButton save = new JButton("Save");
-		button.addActionListener(this);
-		save.addActionListener(this);
-		save.setActionCommand("save");
-		informationPanel.add(button);
-		informationPanel.add(save);
 	}
 
 	private void drawPlayers() {
@@ -79,7 +74,7 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 
 	private void drawDetectives() {
 		List<Point> listOfPlayerLocations = getPlayerLocations();
-		mapPanel.drawDetectives(listOfPlayerLocations);
+		getMapPanel().drawDetectives(listOfPlayerLocations);
 	}
 
 	private List<Point> getPlayerLocations() {
@@ -93,25 +88,26 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 
 	private Point getPlayerPosition(Integer playerId) {
 		Integer node = playerVisualisable.getNodeId(playerId);
-		int x = playerVisualisable.getLocationX(node);			
+		int x = playerVisualisable.getLocationX(node);
 		int y = playerVisualisable.getLocationY(node);
-		Point point = new Point(x,y);
+		Point point = new Point(x, y);
 		return point;
 	}
 
 	private void drawMrX() {
 		Integer mrX = playerVisualisable.getMrXIdList().get(0);
 		Point mrXLocation = getPlayerPosition(mrX);
-		mapPanel.drawMrX(mrXLocation);
-		
+		getMapPanel().drawMrX(mrXLocation);
+
 	}
 
 	private void drawMap() {
 		try {
-			mapPanel = new MapPanel("resources/" + mapVisualisable.getMapFilename());
-			mapPanel.addMouseListener(this);
-			
-			JScrollPane scrollPane = new JScrollPane(mapPanel);
+			setMapPanel(new MapPanel("resources/"
+					+ mapVisualisable.getMapFilename(), this));
+
+			JScrollPane scrollPane = new JScrollPane(getMapPanel());
+			scrollPane.setMaximumSize(getMapPanel().getMapSize());
 			panel.add(scrollPane, new CC().height("80%"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -128,50 +124,39 @@ public class GUI extends GameVisualiser implements MouseListener, SelectTicketTy
 
 	private void initializeWindow() {
 		window = new JFrame();
-		
-		MigLayout layout = new MigLayout(new LC().flowY().wrapAfter(2), new AC().grow().fill(), new AC().grow().fill());
+
+		MigLayout layout = new MigLayout(new LC().flowY().wrapAfter(2),
+				new AC().grow().fill(), new AC().grow().fill());
 		panel = new JPanel(layout);
 
 		window.add(panel);
 	}
 
-	private void initaliseSelectTicketWindow() {
-		selectTicketFrame = new JFrame();
-		SelectTicketTypePanel ticketPanel = new SelectTicketTypePanel();
-		ticketPanel.setDelegate(this);
-		selectTicketFrame.getContentPane().add(ticketPanel);
-		selectTicketFrame.pack();
+	public int getCurrentPlayerId() {
+		return currentPlayerId;
 	}
 
-	public void mouseClicked(MouseEvent e) {
-		if (e.getComponent().equals(mapPanel)) {
-			int x = e.getX();
-			int y = e.getY();
-
-			selectTicketFrame.setVisible(true);
-			targetNodeId = controllable.getNodeIdFromLocation(x, y);
-		}
+	public void setCurrentPlayerId(int currentPlayerId) {
+		this.currentPlayerId = currentPlayerId;
 	}
 
-	public void ticketTypePanelSelected(Ticket ticket) {
-		selectTicketFrame.dispose();
-		controllable.movePlayer(currentPlayerId, targetNodeId, ticket.getTicketType());
-		System.out.println("Ticket type: " + ticket.getTicketType().toString());
+	public void updateCurrentPlayer() {
+		currentPlayerId = visualisable.getNextPlayerToMove();
 	}
-	
-	public void mousePressed(MouseEvent e) { }
-	public void mouseReleased(MouseEvent e) { }
-	public void mouseEntered(MouseEvent e) { }
-	public void mouseExited(MouseEvent e) { }
 
-	public void actionPerformed(ActionEvent e) { 
-		if (e.getActionCommand().equals("save")) {
-			controllable.saveGame("");
-		}
-		else {
-			controllable.loadGame("");
-			redraw();
-		}
+	public Controllable getControllable() {
+		return controllable;
 	}
-	
+
+	public MapPanel getMapPanel() {
+		return mapPanel;
+	}
+
+	public void setMapPanel(MapPanel mapPanel) {
+		this.mapPanel = mapPanel;
+	}
+
+	public Visualisable getVisualisable() {
+		return visualisable;
+	}
 }

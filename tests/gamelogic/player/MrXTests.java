@@ -1,6 +1,5 @@
 package gamelogic.player;
 
-
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -30,19 +29,20 @@ public class MrXTests extends PlayerTests {
 	private int getNumberOfBlackTickets() {
 		return mrX().getNumberOfBlackTickets();
 	}
-	
+
 	@Test
 	public void movingMrXAlongUndergroundEdgeByBlackTicket() throws Exception {
 		mrX().move(new UndergroundEdge(null, null, 0), new BlackTicket());
 		assertEquals(4, getNumberOfBlackTickets());
 	}
-	
+
 	@Test
 	public void movingMrXAlongUndergroundEdgesByDoubleMoveTicket() {
-		mrX().move(createUndergroundEdge(), createUndergroundEdge(), new DoubleMoveTicket());
+		mrX().move(createUndergroundEdge(), createUndergroundEdge(),
+				new DoubleMoveTicket());
 		assertEquals(1, getNumberOfDoubleMoveTickets());
 	}
-	
+
 	@Test
 	public void moveWithBlackTicketGetsRecorded() throws Exception {
 		TaxiEdge taxiEdge = createTaxiEdge();
@@ -53,6 +53,5 @@ public class MrXTests extends PlayerTests {
 	private MrX mrX() {
 		return (MrX) player;
 	}
-
 
 }
