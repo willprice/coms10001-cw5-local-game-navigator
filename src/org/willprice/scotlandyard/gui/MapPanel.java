@@ -61,10 +61,7 @@ public class MapPanel extends JPanel implements MouseListener {
 	}
 
 	private void paintMrX(Graphics g) {
-		int mrXPlayerId = 1;
-		if (gui.getVisualisable().isVisible(mrXPlayerId)) {
-			paintPlayer(g, mrXPosition, mrXImage);
-		}
+		paintPlayer(g, mrXPosition, mrXImage);
 	}
 
 	private void paintDetective(Graphics g, Point detectiveLocation) {
@@ -124,8 +121,11 @@ public class MapPanel extends JPanel implements MouseListener {
 	}
 
 	public void drawMrX(Point mrXPosition) {
+		int mrXPlayerId = 1;
 		this.mrXPosition = mrXPosition;
-		redrawPanel();
+		if (gui.getVisualisable().isVisible(mrXPlayerId)) {
+			redrawPanel();
+		}
 	}
 
 	public void mouseClicked(MouseEvent e) {
