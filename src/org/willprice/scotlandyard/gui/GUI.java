@@ -52,7 +52,7 @@ public class GUI extends GameVisualiser {
 		drawPlayers();
 		getMapPanel().revalidate();
 		getMapPanel().repaint();
-		informationPanel.updateLabel(getCurrentPlayerId());
+		informationPanel.setCurrentPlayer(getCurrentPlayerId());
 	}
 
 	private void drawMrXMovesPanel() {
