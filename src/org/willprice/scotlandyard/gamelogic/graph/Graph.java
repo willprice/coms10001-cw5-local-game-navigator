@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 import org.willprice.scotlandyard.gamelogic.GameState;
+import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
+import org.willprice.scotlandyard.gamelogic.graph.Edge.EdgeType;
 
 /**
  * Class that represents a graph. This class is based around a List of nodes and
@@ -134,5 +136,22 @@ public class Graph {
 		Node node = initialNodes.get(randomNodeIndex);
 		initialNodes.remove(node);
 		return node;
+	}
+
+	public Edge findTraversableEdge(Integer targetNodeId, TicketType ticketType, List<Edge> currentlyConnectedEdges) {
+		System.out.println(currentlyConnectedEdges.size());
+		for (Edge edge : currentlyConnectedEdges) {
+			String nodeId = Integer.toString(targetNodeId);
+			if (edge.connectsNode(nodeId)
+					&& edgeCanBeTraversedByTicket(edge.type(), ticketType)) {
+				return edge;
+			}
+		}
+		return null;
+	}
+
+	public boolean edgeCanBeTraversedByTicket(EdgeType edgeType, TicketType ticketType) {
+		System.out.println(edgeType.toString() + " " + ticketType.toString());
+		return edgeType.toString().equals(ticketType.toString());
 	}
 }

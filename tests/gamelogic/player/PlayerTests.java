@@ -20,7 +20,7 @@ public abstract class PlayerTests {
 
 	protected void movePlayer(int numberOfMoves, Edge edge) {
 		for (int i = 0; i < numberOfMoves; i++) {
-			player.move(edge);
+//			player.move(edge);
 		}
 	}
 

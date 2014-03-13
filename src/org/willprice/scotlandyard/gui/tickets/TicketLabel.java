@@ -18,12 +18,12 @@ public abstract class TicketLabel extends JPanel {
 	}
 
 	public void display() {
-		label = new JLabel("0", icon, 10);
+		int padding = 10;
+		label = new JLabel("0", icon, padding);
 		add(label);
 	}
 	
 	public void setNumberOfTickets(Integer number) {
 		label.setText(number.toString());
 	}
-
 }

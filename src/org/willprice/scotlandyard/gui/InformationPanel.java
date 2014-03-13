@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.willprice.scotlandyard.gamelogic.Initialisable;
+import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
 import org.willprice.scotlandyard.gui.tickets.BlackTicketLabel;
 import org.willprice.scotlandyard.gui.tickets.BusTicketLabel;
 import org.willprice.scotlandyard.gui.tickets.DoubleMoveTicketLabel;
@@ -19,7 +21,7 @@ public class InformationPanel extends JPanel implements ActionListener {
 	private JLabel currentPlayer;
 	private DoubleMoveTicketLabel doubleMoveTickets;
 	private BlackTicketLabel blackTickets;
-	private BusTicketLabel busMoveTickets;
+	private BusTicketLabel busTickets;
 	private TaxiTicketLabel taxiTickets;
 	private UndergroundTicketLabel undergroundTickets;
 
@@ -31,6 +33,20 @@ public class InformationPanel extends JPanel implements ActionListener {
 		createPlayerTicketsInformation();
 	}
 
+	public void updateAndRedraw() {
+		busTickets.setNumberOfTickets(getNumberOfTickets(Initialisable.TicketType.Bus));
+		taxiTickets.setNumberOfTickets(getNumberOfTickets(Initialisable.TicketType.Taxi));
+		undergroundTickets.setNumberOfTickets(getNumberOfTickets(Initialisable.TicketType.Underground));
+		blackTickets.setNumberOfTickets(getNumberOfTickets(Initialisable.TicketType.SecretMove));
+		doubleMoveTickets.setNumberOfTickets(getNumberOfTickets(Initialisable.TicketType.DoubleMove));
+		setCurrentPlayer(gui.getCurrentPlayerId());
+	}
+
+	private Integer getNumberOfTickets(TicketType ticketType) {
+		TicketType ticket = ticketType;
+		Integer numberOfTickets = gui.getVisualisable().getNumberOfTickets(ticket, gui.getCurrentPlayerId());
+		return numberOfTickets;
+	}
 	private void createCurrentPlayerLabel() {
 		currentPlayer = new JLabel("Current Player: " + gui.getCurrentPlayerId());
 		add(currentPlayer);
@@ -54,13 +70,13 @@ public class InformationPanel extends JPanel implements ActionListener {
 		// TODO: rename me!
 		doubleMoveTickets = new DoubleMoveTicketLabel();
 		blackTickets = new BlackTicketLabel();
-		busMoveTickets = new BusTicketLabel();
+		busTickets = new BusTicketLabel();
 		taxiTickets = new TaxiTicketLabel();
 		undergroundTickets = new UndergroundTicketLabel();
 
 		add(doubleMoveTickets);
 		add(blackTickets);
-		add(busMoveTickets);
+		add(busTickets);
 		add(taxiTickets);
 		add(undergroundTickets);
 	}
@@ -74,7 +90,7 @@ public class InformationPanel extends JPanel implements ActionListener {
 		} else {
 			gui.getControllable().loadGame("save_game.sy");
 			gui.updateCurrentPlayer();
-			gui.redraw();
+			gui.updateGlobalState();
 		}
 	}
 }

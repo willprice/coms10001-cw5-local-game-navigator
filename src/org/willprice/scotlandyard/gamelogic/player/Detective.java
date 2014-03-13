@@ -2,7 +2,9 @@ package org.willprice.scotlandyard.gamelogic.player;
 
 import java.util.Stack;
 
+import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
 import org.willprice.scotlandyard.gamelogic.graph.Edge;
+import org.willprice.scotlandyard.gamelogic.graph.Node;
 import org.willprice.scotlandyard.gamelogic.tickets.BusTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.TaxiTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
@@ -53,9 +55,8 @@ public class Detective extends Player {
 	}
 
 	@Override
-	public void move(Edge edge) {
+	public void move(Node edge) {
 		super.move(edge);
-		removeTicket(edge);
 	}
 
 	private void removeTicket(Edge edge) {
@@ -83,6 +84,20 @@ public class Detective extends Player {
 			return undergroundTickets.size() > 0;
 		default:
 			return false;
+		}
+	}
+
+	@Override
+	public int getNumberOfTickets(TicketType type) {
+		switch (type) {
+		case Bus:
+			return busTickets.size();
+		case Taxi:
+			return taxiTickets.size();
+		case Underground:
+			return undergroundTickets.size();
+		default:
+			return 0;
 		}
 	}
 }

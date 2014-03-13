@@ -1,13 +1,13 @@
 package org.willprice.scotlandyard.gamelogic.player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.willprice.scotlandyard.Game;
+import org.willprice.scotlandyard.gamelogic.Initialisable;
 import org.willprice.scotlandyard.gamelogic.graph.Edge;
 import org.willprice.scotlandyard.gamelogic.graph.Node;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
@@ -38,8 +38,8 @@ public abstract class Player {
 		return moves;
 	}
 
-	public void move(Edge edge) {
-		moves.add(edge);
+	public void move(Node node) {
+		moves.add(null);
 	}
 
 	public void setPosition(Node node) {
@@ -51,4 +51,6 @@ public abstract class Player {
 	}
 
 	abstract public boolean hasTicket(Ticket ticket);
+
+	abstract public int getNumberOfTickets(Initialisable.TicketType type); 
 }

@@ -51,6 +51,30 @@ public class MapPanel extends JPanel implements MouseListener {
 		mapSize = new Dimension(map.getWidth(), map.getHeight());
 	}
 
+	public void draw() {
+		updatePlayers();
+	}
+
+	void updatePlayers() {
+		updateDetectives();
+		updateMrX();
+	}
+
+	void updateMrX() {
+		Integer mrX = gui.getPlayerVisualisable().getMrXIdList().get(0);
+		this.mrXPosition = gui.getPlayerPosition(mrX);
+	}
+
+	void updateDetectives() {
+		this.detectiveLocations = gui.getPlayerLocations();
+	}
+
+	public void updateAndRedraw() {
+		updatePlayers();
+		revalidate();
+		repaint();
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -61,7 +85,10 @@ public class MapPanel extends JPanel implements MouseListener {
 	}
 
 	private void paintMrX(Graphics g) {
-		paintPlayer(g, mrXPosition, mrXImage);
+		Integer mrXPlayerId = gui.getVisualisable().getMrXIdList().get(0);
+		if (gui.getVisualisable().isVisible(mrXPlayerId)) {
+            paintPlayer(g, mrXPosition, mrXImage);
+		}
 	}
 
 	private void paintDetective(Graphics g, Point detectiveLocation) {
@@ -110,23 +137,6 @@ public class MapPanel extends JPanel implements MouseListener {
 		return (int) (image.getWidth() * xScaleFactor);
 	}
 
-	public void drawDetectives(List<Point> playerLocations) {
-		this.detectiveLocations = playerLocations;
-		redrawPanel();
-	}
-
-	private void redrawPanel() {
-		revalidate();
-		repaint();
-	}
-
-	public void drawMrX(Point mrXPosition) {
-		int mrXPlayerId = 1;
-		this.mrXPosition = mrXPosition;
-		if (gui.getVisualisable().isVisible(mrXPlayerId)) {
-			redrawPanel();
-		}
-	}
 
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
@@ -142,13 +152,11 @@ public class MapPanel extends JPanel implements MouseListener {
 		Boolean move = gui.getControllable().movePlayer(
 				gui.getCurrentPlayerId(), targetNodeId, ticket.getTicketType());
 		if (move) {
-			System.out.println("Yes, we moved!");
-			gui.redraw();
-			gui.updateCurrentPlayer();
+			System.out.println("Yes, we moved!, Player: " + gui.getCurrentPlayerId());
+			gui.updateGlobalState();
 		} else {
-			System.out.println("Can't move! :D");
+			System.out.println("Can't move! :D, Player: " + gui.getCurrentPlayerId());
 		}
-
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -166,5 +174,4 @@ public class MapPanel extends JPanel implements MouseListener {
 	public Dimension getMapSize() {
 		return mapSize;
 	}
-
 }

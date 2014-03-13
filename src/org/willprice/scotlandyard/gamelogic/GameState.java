@@ -2,6 +2,7 @@ package org.willprice.scotlandyard.gamelogic;
 
 import java.awt.Point;
 import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -190,9 +191,8 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 
 	@Override
 	public Integer getNumberOfTickets(TicketType type, Integer playerId) {
-		// TODO: Fix
 		Player player = getPlayer(playerId);
-		return -1;
+		return player.getNumberOfTickets(type);
 	}
 
 	private Player getPlayer(Integer playerId) {
@@ -211,7 +211,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 
 	@Override
 	public Boolean isVisible(Integer playerId) {
-		if (currentPlayerId == 1) {
+		if (currentPlayerId == getMrX().getPlayerId()) {
 			return true;
 		} else {
 			switch(round) {
@@ -221,11 +221,9 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 			case 18:
 			case 24:
 				return true;
-			default:
-				return false;
 			}
 		}
-
+		return false;
 	}
 
 	@Override
@@ -241,7 +239,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 		int playerId = getCurrentPlayerId();
 		int nextPlayerId = (playerId % numberOfPlayers) + 1;
 		setCurrentPlayerId(nextPlayerId);
-		return playerId;
+		return nextPlayerId;
 	}
 
 	@Override
@@ -260,20 +258,22 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 		}
 		List<Edge> currentlyConnectedEdges = graph.edges(player.getPosition()
 				.name());
-		Edge traversableEdge = findTraversableEdge(targetNodeId, ticketType,
-				currentlyConnectedEdges);
-
-		if (traversableEdge != null) {
+		if (graph.findTraversableEdge(targetNodeId, ticketType,
+				currentlyConnectedEdges) != null) {
 			Node node = graph.find(targetNodeId);
 			player.setPosition(node);
 			updateDiscardStacks(ticketType, player);
-			currentPlayerId = getNextPlayerToMove();
-			if (currentPlayerId == numberOfDetectives + 1) {
+			if (isEndOfRound()) {
 				round++;
+			
 			}
 			return true;
 		}
 		return false;
+	}
+
+	private boolean isEndOfRound() {
+		return currentPlayerId == numberOfDetectives + 1;
 	}
 
 	private void updateDiscardStacks(TicketType ticketType, Player player) {
@@ -294,20 +294,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 		}
 	}
 
-	private Edge findTraversableEdge(Integer targetNodeId,
-			TicketType ticketType, List<Edge> currentlyConnectedEdges) {
-		System.out.println(currentlyConnectedEdges.size());
-		for (Edge edge : currentlyConnectedEdges) {
-			String nodeId = Integer.toString(targetNodeId);
-			if (edge.connectsNode(nodeId)
-					&& edgeCanBeTraversedByTicket(edge.type(), ticketType)) {
-				return edge;
-			}
-		}
-		return null;
-	}
-
-	private boolean edgeCanBeTraversedByTicket(EdgeType edgeType,
+	public boolean edgeCanBeTraversedByTicket(EdgeType edgeType,
 			TicketType ticketType) {
 		System.out.println(edgeType.toString() + " " + ticketType.toString());
 		return edgeType.toString().equals(ticketType.toString());
