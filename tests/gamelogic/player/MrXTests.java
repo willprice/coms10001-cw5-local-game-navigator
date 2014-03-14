@@ -32,21 +32,14 @@ public class MrXTests extends PlayerTests {
 
 	@Test
 	public void movingMrXAlongUndergroundEdgeByBlackTicket() throws Exception {
-		mrX().move(new UndergroundEdge(null, null, 0), new BlackTicket());
+		mrX().move(new UndergroundEdge(null, null, 0), new BlackTicket().getTicketType());
 		assertEquals(4, getNumberOfBlackTickets());
-	}
-
-	@Test
-	public void movingMrXAlongUndergroundEdgesByDoubleMoveTicket() {
-		mrX().move(createUndergroundEdge(), createUndergroundEdge(),
-				new DoubleMoveTicket());
-		assertEquals(1, getNumberOfDoubleMoveTickets());
 	}
 
 	@Test
 	public void moveWithBlackTicketGetsRecorded() throws Exception {
 		TaxiEdge taxiEdge = createTaxiEdge();
-		mrX().move(taxiEdge, new BlackTicket());
+		mrX().move(taxiEdge, new BlackTicket().getTicketType());
 		assertEquals(taxiEdge, mrX().getBlackTicketEdges().get(0));
 	}
 

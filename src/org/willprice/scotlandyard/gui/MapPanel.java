@@ -1,7 +1,9 @@
 package org.willprice.scotlandyard.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -62,15 +65,42 @@ public class MapPanel extends JPanel implements MouseListener {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		paintMap(g);
+		paintCurrentPlayerCircle(g);
 		paintDetectives(g);
 		paintMrX(g);
 	}
 
+	private void paintCurrentPlayerCircle(Graphics g) {
+		g = (Graphics2D) g;
+		int currentPlayer = gui.getCurrentPlayerId();
+		int width = 0, height = 0, x = 0, y = 0;
+		for (int player : gui.getPlayers()) {
+			if (player == currentPlayer) {
+				Point position = getPlayerLocation(player);
+				x = position.x;
+				y = position.y;
+				if (player != gui.getVisualisable().getMrXIdList().get(0)) {
+					width = detectiveImage.getWidth();
+					height = detectiveImage.getHeight();
+				} else {
+					width = mrXImage.getWidth();
+					height = mrXImage.getHeight();
+				}
+				x -= width/2;
+				y -= height/2;
+			}
+		}
+		g.setColor(new Color(255,0,0));
+		g.drawArc(x, y, width, height, 0, 360);
+
+	}
+
+
 	private void paintMrX(Graphics g) {
 		Integer mrX = gui.getVisualisable().getMrXIdList().get(0);
-		this.mrXPosition = gui.getPlayerLocation(mrX);
+		this.mrXPosition = getPlayerLocation(mrX);
 		if (gui.getVisualisable().isVisible(mrX)) {
-            paintPlayer(g, mrXPosition, mrXImage);
+			paintPlayer(g, mrXPosition, mrXImage);
 		}
 	}
 
@@ -83,7 +113,7 @@ public class MapPanel extends JPanel implements MouseListener {
 		int width = playerImage.getWidth();
 		int height = playerImage.getHeight();
 		int x = playerLocation.x - playerImage.getWidth()/2;
- 		int y = (int) (playerLocation.y - playerImage.getHeight() * 1.2);
+		int y = (int) (playerLocation.y - playerImage.getHeight() * 1.2);
 		g.drawImage(playerImage, x, y, width, height, this);
 	}
 
@@ -94,8 +124,7 @@ public class MapPanel extends JPanel implements MouseListener {
 	}
 
 	private void paintDetectives(Graphics g) {
-		int currentPlayer = gui.getCurrentPlayerId()
-		this.detectiveLocations = gui.getPlayerLocations();
+		this.detectiveLocations = getPlayerLocations();
 		for (Point detectiveLocation : detectiveLocations) {
 			paintDetective(g, detectiveLocation);
 		}
@@ -136,5 +165,22 @@ public class MapPanel extends JPanel implements MouseListener {
 
 	public Dimension getMapSize() {
 		return mapSize;
+	}
+
+	public List<Point> getPlayerLocations() {
+		List<Point> listOfPlayerLocations = new ArrayList<>();
+		for (Integer detective : gui.getPlayerVisualisable().getDetectiveIdList()) {
+			Point playerPosition = getPlayerLocation(detective);
+			listOfPlayerLocations.add(playerPosition);
+		}
+		return listOfPlayerLocations;
+	}
+
+	Point getPlayerLocation(Integer playerId) {
+		Integer node = gui.getPlayerVisualisable().getNodeId(playerId);
+		int x = gui.getPlayerVisualisable().getLocationX(node);
+		int y = gui.getPlayerVisualisable().getLocationY(node);
+		Point point = new Point(x, y);
+		return point;
 	}
 }

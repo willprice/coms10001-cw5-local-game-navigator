@@ -6,6 +6,7 @@ import org.willprice.scotlandyard.gamelogic.graph.Edge;
 import org.willprice.scotlandyard.gamelogic.graph.TaxiEdge;
 import org.willprice.scotlandyard.gamelogic.graph.UndergroundEdge;
 import org.willprice.scotlandyard.gamelogic.player.Player;
+import org.willprice.scotlandyard.gamelogic.tickets.BlackTicket;
 
 public abstract class PlayerTests {
 
@@ -20,7 +21,7 @@ public abstract class PlayerTests {
 
 	protected void movePlayer(int numberOfMoves, Edge edge) {
 		for (int i = 0; i < numberOfMoves; i++) {
-//			player.move(edge);
+			player.move(edge, new BlackTicket().getTicketType());
 		}
 	}
 

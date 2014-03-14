@@ -106,24 +106,6 @@ public class GUI extends GameVisualiser {
 		window.add(panel);
 	}
 
-	public List<Point> getPlayerLocations() {
-		List<Point> listOfPlayerLocations = new ArrayList<>();
-		for (Integer detective : playerVisualisable.getDetectiveIdList()) {
-			Point playerPosition = getPlayerLocation(detective);
-			listOfPlayerLocations.add(playerPosition);
-		}
-		return listOfPlayerLocations;
-	}
-
-	Point getPlayerLocation(Integer playerId) {
-		Integer node = playerVisualisable.getNodeId(playerId);
-		int x = playerVisualisable.getLocationX(node);
-		int y = playerVisualisable.getLocationY(node);
-		Point point = new Point(x, y);
-		return point;
-	}
-
-
 	public int getCurrentPlayerId() {
 		return currentPlayerId;
 	}
@@ -162,6 +144,13 @@ public class GUI extends GameVisualiser {
 
 	public PlayerVisualisable getPlayerVisualisable() {
 		return playerVisualisable;
+	}
+	
+	public List<Integer> getPlayers() {
+		List<Integer> players = new ArrayList<>();
+		players.addAll(getVisualisable().getDetectiveIdList());
+		players.addAll(getVisualisable().getMrXIdList());
+		return players;
 	}
 
 }
