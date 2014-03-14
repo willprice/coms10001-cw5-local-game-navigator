@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Stack;
 import java.util.Vector;
 
 import org.willprice.scotlandyard.Reader;
@@ -19,10 +18,7 @@ import org.willprice.scotlandyard.gamelogic.player.Detective;
 import org.willprice.scotlandyard.gamelogic.player.MrX;
 import org.willprice.scotlandyard.gamelogic.player.Player;
 import org.willprice.scotlandyard.gamelogic.tickets.BlackTicket;
-import org.willprice.scotlandyard.gamelogic.tickets.BusTicket;
-import org.willprice.scotlandyard.gamelogic.tickets.TaxiTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
-import org.willprice.scotlandyard.gamelogic.tickets.UndergroundTicket;
 import org.willprice.scotlandyard.util.PersistentStore;
 
 /**
@@ -45,10 +41,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 	private Map<Node, Point> nodeLocations;
 	private int currentPlayerId = 1;
 	private PersistentStore store;
-	private Stack<BusTicket> busTicketDiscardStack = new Stack<>();
-	private Stack<TaxiTicket> taxiTicketDiscardStack = new Stack<>();
-	private Stack<UndergroundTicket> undergroundTicketDiscardStack = new Stack<>();
-	private int round = 1;
+	public int round = 1;
 
 	public GameState() throws IOException {
 		Reader reader = new Reader();
@@ -258,18 +251,22 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 		}
 		List<Edge> currentlyConnectedEdges = graph.edges(player.getPosition()
 				.name());
-		if (graph.findTraversableEdge(targetNodeId, ticketType,
-				currentlyConnectedEdges) != null) {
-			Node node = graph.find(targetNodeId);
-			player.setPosition(node);
+		Edge edge = graph.findTraversableEdge(targetNodeId, ticketType,
+				currentlyConnectedEdges);
+		if (edge != null) {
+			player.move(edge, ticketType);
 			updateDiscardStacks(ticketType, player);
-			if (isEndOfRound()) {
-				round++;
-			
-			}
+			updateRound();
 			return true;
 		}
 		return false;
+	}
+
+	private void updateRound() {
+		if (isEndOfRound()) {
+			round++;
+		
+		}
 	}
 
 	private boolean isEndOfRound() {
@@ -278,20 +275,12 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 
 	private void updateDiscardStacks(TicketType ticketType, Player player) {
 		if (player.getClass() != MrX.class) {
-			switch (ticketType) {
-			case Bus:
-				busTicketDiscardStack.push(new BusTicket());
-				break;
-			case Taxi:
-				taxiTicketDiscardStack.push(new TaxiTicket());
-				break;
-			case Underground:
-				undergroundTicketDiscardStack.push(new UndergroundTicket());
-				break;
-			default:
-				break;
-			}
+			addTicketToDiscardStack(ticketType);
 		}
+	}
+
+	private void addTicketToDiscardStack(TicketType ticketType) {
+		mrX.addTicketToDiscardStack(this, ticketType);
 	}
 
 	public boolean edgeCanBeTraversedByTicket(EdgeType edgeType,
@@ -340,17 +329,5 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 	@Override
 	public Boolean loadGame(String filename) {
 		return store.loadGame(filename);
-	}
-
-	public int getBusDiscardStackSize() {
-		return busTicketDiscardStack.size();
-	}
-
-	public int getTaxiDiscardStackSize() {
-		return taxiTicketDiscardStack.size();
-	}
-
-	public int getUndergroundDiscardStackSize() {
-		return undergroundTicketDiscardStack.size();
 	}
 }

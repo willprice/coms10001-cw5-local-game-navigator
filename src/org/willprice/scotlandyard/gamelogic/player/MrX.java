@@ -13,8 +13,11 @@ import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
 import org.willprice.scotlandyard.gamelogic.graph.Edge;
 import org.willprice.scotlandyard.gamelogic.graph.UndergroundEdge;
 import org.willprice.scotlandyard.gamelogic.tickets.BlackTicket;
+import org.willprice.scotlandyard.gamelogic.tickets.BusTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.DoubleMoveTicket;
+import org.willprice.scotlandyard.gamelogic.tickets.TaxiTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
+import org.willprice.scotlandyard.gamelogic.tickets.UndergroundTicket;
 
 public class MrX extends Player {
 
@@ -22,6 +25,9 @@ public class MrX extends Player {
 	private Stack<BlackTicket> blackTickets = new Stack<>();
 	private Stack<DoubleMoveTicket> doubleMoveTickets = new Stack<>();
 	private List<Edge> blackTicketEdges = new ArrayList<Edge>();
+	public Stack<BusTicket> busTicketDiscardStack = new Stack<>();
+	public Stack<TaxiTicket> taxiTicketDiscardStack = new Stack<>();
+	public Stack<UndergroundTicket> undergroundTicketDiscardStack = new Stack<>();
 
 	public MrX(GameState gameState) {
 		this.gameState = gameState;
@@ -38,18 +44,6 @@ public class MrX extends Player {
 		return doubleMoveTickets.size();
 	}
 
-	public void move(Edge edge, Ticket ticket) {
-		switch (ticket.getTicketType()) {
-		case SecretMove:
-			blackTickets.pop();
-			blackTicketEdges.add(edge);
-		}
-	}
-
-	public void move(Edge firstEdge, Edge secondEdge, DoubleMoveTicket ticket) {
-		doubleMoveTickets.pop();
-	}
-
 	public List<Edge> getBlackTicketEdges() {
 		return blackTicketEdges;
 	}
@@ -57,16 +51,16 @@ public class MrX extends Player {
 	@Override
 	public boolean hasTicket(Ticket ticket) {
 		switch (ticket.getTicketType()) {
-		case Bus:
-			return gameState.getBusDiscardStackSize() > 0;
-		case Taxi:
-			return gameState.getTaxiDiscardStackSize() > 0;
-		case Underground:
-			return gameState.getUndergroundDiscardStackSize() > 0;
-		case SecretMove:
-			return blackTickets.size() > 0;
 		case DoubleMove:
 			return doubleMoveTickets.size() > 0;
+		case SecretMove:
+			return blackTickets.size() > 0;
+		case Bus:
+			return busTicketDiscardStack.size() > 0;
+		case Taxi:
+			return taxiTicketDiscardStack.size() > 0;
+		case Underground:
+			return undergroundTicketDiscardStack.size() > 0;
 		default:
 			return false;
 		}
@@ -80,13 +74,57 @@ public class MrX extends Player {
 		case SecretMove:
 			return blackTickets.size();
 		case Bus:
-			return gameState.getBusDiscardStackSize();
+			return busTicketDiscardStack.size();
 		case Taxi:
-			return gameState.getTaxiDiscardStackSize();
+			return taxiTicketDiscardStack.size();
 		case Underground:
-			return gameState.getUndergroundDiscardStackSize();
+			return undergroundTicketDiscardStack.size();
 		default:
 			return 0;
 		}
 	}
+
+	@Override
+	public void removeTicket(TicketType ticketType) {
+		if (gameState.round == 1) {
+			return;
+		}
+		switch (ticketType) {
+		case DoubleMove:
+			doubleMoveTickets.pop();
+			break;
+		case SecretMove:
+			blackTickets.pop();
+			break;
+		case Bus:
+			busTicketDiscardStack.pop();
+			break;
+		case Taxi:
+			taxiTicketDiscardStack.pop();
+			break;
+		case Underground:
+			undergroundTicketDiscardStack.pop();
+
+		default:
+			break;
+		}
+		
+	}
+
+	public void addTicketToDiscardStack(GameState gameState, TicketType ticketType) {
+		switch (ticketType) {
+		case Bus:
+			busTicketDiscardStack.push(new BusTicket());
+			break;
+		case Taxi:
+			taxiTicketDiscardStack.push(new TaxiTicket());
+			break;
+		case Underground:
+			undergroundTicketDiscardStack.push(new UndergroundTicket());
+			break;
+		default:
+			break;
+		}
+	}
+
 }

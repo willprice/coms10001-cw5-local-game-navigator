@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.willprice.scotlandyard.Game;
 import org.willprice.scotlandyard.gamelogic.Initialisable;
+import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
 import org.willprice.scotlandyard.gamelogic.graph.Edge;
 import org.willprice.scotlandyard.gamelogic.graph.Node;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
@@ -38,9 +39,13 @@ public abstract class Player {
 		return moves;
 	}
 
-	public void move(Node node) {
-		moves.add(null);
+	public void move(Edge edge, TicketType ticketType) {
+		moves.add(edge);
+		setPosition(new Node(edge.connectedTo(node.name())));
+		removeTicket(ticketType);
 	}
+
+	abstract public void removeTicket(TicketType ticketType);
 
 	public void setPosition(Node node) {
 		this.node = node;

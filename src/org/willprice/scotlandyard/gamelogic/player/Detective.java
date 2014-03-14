@@ -55,25 +55,6 @@ public class Detective extends Player {
 	}
 
 	@Override
-	public void move(Node edge) {
-		super.move(edge);
-	}
-
-	private void removeTicket(Edge edge) {
-		switch (edge.type()) {
-		case Underground:
-			useUndergroundTicket();
-			break;
-		case Bus:
-			useBusTicket();
-			break;
-		case Taxi:
-			useTaxiTicket();
-			break;
-		}
-	}
-
-	@Override
 	public boolean hasTicket(Ticket ticket) {
 		switch (ticket.getTicketType()) {
 		case Bus:
@@ -99,5 +80,23 @@ public class Detective extends Player {
 		default:
 			return 0;
 		}
+	}
+
+	@Override
+	public void removeTicket(TicketType ticketType) {
+		switch (ticketType) {
+		case Bus:
+			useBusTicket();
+			break;
+		case Taxi:
+			useTaxiTicket();
+			break;
+		case Underground:
+			useTaxiTicket();
+			break;
+		default:
+			break;
+		}
+		
 	}
 }

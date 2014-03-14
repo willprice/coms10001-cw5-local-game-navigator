@@ -29,8 +29,6 @@ public class MapPanel extends JPanel implements MouseListener {
 	private BufferedImage detectiveImage;
 	private List<Point> detectiveLocations;
 	private Point mrXPosition;
-	private double xScaleFactor;
-	private double yScaleFactor;
 	private GUI gui;
 
 	private Integer targetNodeId;
@@ -52,25 +50,10 @@ public class MapPanel extends JPanel implements MouseListener {
 	}
 
 	public void draw() {
-		updatePlayers();
+		redraw();
 	}
 
-	void updatePlayers() {
-		updateDetectives();
-		updateMrX();
-	}
-
-	void updateMrX() {
-		Integer mrX = gui.getPlayerVisualisable().getMrXIdList().get(0);
-		this.mrXPosition = gui.getPlayerPosition(mrX);
-	}
-
-	void updateDetectives() {
-		this.detectiveLocations = gui.getPlayerLocations();
-	}
-
-	public void updateAndRedraw() {
-		updatePlayers();
+	public void redraw() {
 		revalidate();
 		repaint();
 	}
@@ -78,15 +61,15 @@ public class MapPanel extends JPanel implements MouseListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		calculateScaleFactors();
 		paintMap(g);
 		paintDetectives(g);
 		paintMrX(g);
 	}
 
 	private void paintMrX(Graphics g) {
-		Integer mrXPlayerId = gui.getVisualisable().getMrXIdList().get(0);
-		if (gui.getVisualisable().isVisible(mrXPlayerId)) {
+		Integer mrX = gui.getVisualisable().getMrXIdList().get(0);
+		this.mrXPosition = gui.getPlayerLocation(mrX);
+		if (gui.getVisualisable().isVisible(mrX)) {
             paintPlayer(g, mrXPosition, mrXImage);
 		}
 	}
@@ -97,16 +80,11 @@ public class MapPanel extends JPanel implements MouseListener {
 
 	private void paintPlayer(Graphics g, Point playerLocation,
 			BufferedImage playerImage) {
-		int width = calculateScaledImageWidth(playerImage);
-		int height = calculateScaledImageHeight(playerImage);
-		int x = calculateScaledImageXPosition(playerLocation, width);
-		int y = calculateScaledImageYPosition(playerLocation, height);
+		int width = playerImage.getWidth();
+		int height = playerImage.getHeight();
+		int x = playerLocation.x - playerImage.getWidth()/2;
+ 		int y = (int) (playerLocation.y - playerImage.getHeight() * 1.2);
 		g.drawImage(playerImage, x, y, width, height, this);
-	}
-
-	private void calculateScaleFactors() {
-		xScaleFactor = getWidth() / ((double) map.getWidth());
-		yScaleFactor = getHeight() / ((double) map.getHeight());
 	}
 
 	private void paintMap(Graphics g) {
@@ -116,27 +94,12 @@ public class MapPanel extends JPanel implements MouseListener {
 	}
 
 	private void paintDetectives(Graphics g) {
+		int currentPlayer = gui.getCurrentPlayerId()
+		this.detectiveLocations = gui.getPlayerLocations();
 		for (Point detectiveLocation : detectiveLocations) {
 			paintDetective(g, detectiveLocation);
 		}
 	}
-
-	private int calculateScaledImageYPosition(Point point, int height) {
-		return (int) (point.y * yScaleFactor - height / 2 - 20);
-	}
-
-	private int calculateScaledImageXPosition(Point point, int width) {
-		return (int) (point.x * xScaleFactor - width / 2);
-	}
-
-	private int calculateScaledImageHeight(BufferedImage image) {
-		return (int) (image.getHeight() * yScaleFactor);
-	}
-
-	private int calculateScaledImageWidth(BufferedImage image) {
-		return (int) (image.getWidth() * xScaleFactor);
-	}
-
 
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();

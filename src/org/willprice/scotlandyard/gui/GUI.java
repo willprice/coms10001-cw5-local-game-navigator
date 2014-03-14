@@ -56,7 +56,7 @@ public class GUI extends GameVisualiser {
 		System.out.println("NextPlayerToMove: " + nextPlayerToMove);
 		setCurrentPlayerId(nextPlayerToMove);
 
-		mapPanel.updateAndRedraw();
+		mapPanel.redraw();
 		informationPanel.updateAndRedraw();
 	}
 
@@ -109,13 +109,13 @@ public class GUI extends GameVisualiser {
 	public List<Point> getPlayerLocations() {
 		List<Point> listOfPlayerLocations = new ArrayList<>();
 		for (Integer detective : playerVisualisable.getDetectiveIdList()) {
-			Point playerPosition = getPlayerPosition(detective);
+			Point playerPosition = getPlayerLocation(detective);
 			listOfPlayerLocations.add(playerPosition);
 		}
 		return listOfPlayerLocations;
 	}
 
-	Point getPlayerPosition(Integer playerId) {
+	Point getPlayerLocation(Integer playerId) {
 		Integer node = playerVisualisable.getNodeId(playerId);
 		int x = playerVisualisable.getLocationX(node);
 		int y = playerVisualisable.getLocationY(node);
