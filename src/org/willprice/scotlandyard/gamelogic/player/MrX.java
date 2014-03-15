@@ -1,17 +1,12 @@
 package org.willprice.scotlandyard.gamelogic.player;
 
-import java.awt.geom.Area;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-import java.util.Vector;
-import java.util.concurrent.ArrayBlockingQueue;
 
 import org.willprice.scotlandyard.gamelogic.GameState;
 import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
 import org.willprice.scotlandyard.gamelogic.graph.Edge;
-import org.willprice.scotlandyard.gamelogic.graph.UndergroundEdge;
 import org.willprice.scotlandyard.gamelogic.tickets.BlackTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.BusTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.DoubleMoveTicket;

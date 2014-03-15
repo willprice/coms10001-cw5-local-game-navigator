@@ -3,8 +3,6 @@ package org.willprice.scotlandyard.gamelogic.player;
 import java.util.Stack;
 
 import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
-import org.willprice.scotlandyard.gamelogic.graph.Edge;
-import org.willprice.scotlandyard.gamelogic.graph.Node;
 import org.willprice.scotlandyard.gamelogic.tickets.BusTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.TaxiTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;

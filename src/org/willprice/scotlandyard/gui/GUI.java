@@ -171,5 +171,9 @@ public class GUI extends GameVisualiser {
 		}
 		return null;
 	}
+	
+	public JFrame getWindow() {
+		return window;
+	}
 
 }

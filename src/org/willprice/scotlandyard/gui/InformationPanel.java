@@ -6,7 +6,6 @@ import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -87,11 +86,18 @@ public class InformationPanel extends JPanel implements ActionListener {
 	public void setCurrentPlayer(int currentPlayer) {
 		this.currentPlayer.setText("Current Player: " + currentPlayer);
 	}
+
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser fileChooser = new JFileChooser();
 		String filename;
 		File file;
-		int returnVal = fileChooser.showOpenDialog(new JFrame());
+		int returnVal = -1;
+		
+		if (e.getActionCommand().equals("save")) {
+			returnVal = fileChooser.showSaveDialog(gui.getWindow());
+		} else {
+			returnVal = fileChooser.showOpenDialog(gui.getWindow());
+		}
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = fileChooser.getSelectedFile();
