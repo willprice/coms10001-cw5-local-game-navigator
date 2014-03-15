@@ -1,10 +1,12 @@
 package org.willprice.scotlandyard.gui;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import org.willprice.scotlandyard.gamelogic.Controllable;
@@ -29,6 +31,7 @@ public class GUI extends GameVisualiser {
 	private Integer currentPlayerId;
 	int targetNodeId;
 	private InformationPanel informationPanel;
+	private MrXMovesPanel mrXMovesPanel;
 
 	@Override
 	public void run() {
@@ -44,13 +47,14 @@ public class GUI extends GameVisualiser {
 	public void updateGlobalState() {
 		setCurrentPlayerId(getVisualisable().getNextPlayerToMove());
 		mapPanel.redraw();
+		mrXMovesPanel.drawTickets(getVisualisable().getMoveList(getMrXId()));
 		informationPanel.updateAndRedraw();
 	}
 
 	private void drawMrXMovesPanel() {
-		JPanel mrXMoves = new JPanel();
-		mrXMoves.setBackground(new Color(0, 0, 244));
-		panel.add(mrXMoves, new CC().growX().growY().spanY(2).width("20%"));
+		mrXMovesPanel = new MrXMovesPanel();
+		mrXMovesPanel.setBackground(new Color(0, 0, 244));
+		panel.add(mrXMovesPanel, new CC().growX().growY().spanY(2).width("20%"));
 	}
 
 	private void drawInformationPanel() {
@@ -64,7 +68,7 @@ public class GUI extends GameVisualiser {
 		try {
 			setMapPanel(new MapPanel("resources/"
 					+ getMapVisualisable().getMapFilename(), this));
-	
+
 			JScrollPane scrollPane = new JScrollPane(getMapPanel());
 			scrollPane.setMaximumSize(getMapPanel().getMapSize());
 			panel.add(scrollPane, new CC().height("80%"));
@@ -77,14 +81,14 @@ public class GUI extends GameVisualiser {
 		window.add(panel);
 		window.pack();
 	}
-	
+
 	private void initializeWindow() {
 		window = new JFrame();
-		
+
 		MigLayout layout = new MigLayout(new LC().flowY().wrapAfter(2),
 				new AC().grow().fill(), new AC().grow().fill());
 		panel = new JPanel(layout);
-		
+
 		window.add(panel);
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -126,7 +130,7 @@ public class GUI extends GameVisualiser {
 	public PlayerVisualisable getPlayerVisualisable() {
 		return playerVisualisable;
 	}
-	
+
 	public List<Integer> getPlayers() {
 		List<Integer> players = new ArrayList<>();
 		players.addAll(getVisualisable().getDetectiveIdList());
@@ -136,6 +140,36 @@ public class GUI extends GameVisualiser {
 
 	public int getMrXId() {
 		return getVisualisable().getMrXIdList().get(0);
+	}
+
+	public static Image getBusTicketImage() {
+		return readImage("/bus_ticket.png");
+	}
+	
+	public static Image getTaxiTicketImage() {
+		return readImage("/taxi_ticket.png");
+	}
+	
+	public static Image getUndergroundTicketImage() {
+		return readImage("/tube_ticket.png");
+	}
+	
+	public static Image getDoubleMoveTicketImage() {
+		return readImage("/double_move_ticket.png");
+	}
+
+	public static Image getBlackTicketImage() {
+		return readImage("/black_ticket.png");
+	}
+
+	private static Image readImage(String imagePath) {
+		try {
+			return ImageIO.read(GUI.class.getResource(imagePath));
+		} catch (IOException e) {
+			System.err.println("Could not find " + imagePath);
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

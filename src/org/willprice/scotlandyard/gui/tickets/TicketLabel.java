@@ -1,6 +1,5 @@
 package org.willprice.scotlandyard.gui.tickets;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;

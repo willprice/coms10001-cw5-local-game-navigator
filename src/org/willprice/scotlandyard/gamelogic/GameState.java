@@ -196,7 +196,8 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 
 	@Override
 	public List<TicketType> getMoveList(Integer playerId) {
-		return null;
+		Player player = getPlayer(playerId);
+		return player.getMoveList();
 	}
 
 	@Override

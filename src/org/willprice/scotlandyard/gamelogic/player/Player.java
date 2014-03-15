@@ -16,7 +16,7 @@ import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
 public abstract class Player {
 
 	protected int playerId;
-	protected List<Edge> moves = new ArrayList<Edge>();
+	protected List<TicketType> moves = new ArrayList<>();
 	private Node node;
 
 	protected <T> void initTickets(int numberOfTickets, Stack<T> tickets,
@@ -35,12 +35,12 @@ public abstract class Player {
 		return playerId;
 	}
 
-	public List<Edge> getMoveList() {
+	public List<TicketType> getMoveList() {
 		return moves;
 	}
 
 	public void move(Edge edge, TicketType ticketType) {
-		moves.add(edge);
+		moves.add(ticketType);
 		setPosition(new Node(edge.connectedTo(node.name())));
 		removeTicket(ticketType);
 	}
