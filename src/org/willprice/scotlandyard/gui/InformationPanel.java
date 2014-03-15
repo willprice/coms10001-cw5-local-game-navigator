@@ -9,6 +9,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.miginfocom.layout.AC;
+import net.miginfocom.layout.CC;
+import net.miginfocom.layout.LC;
+import net.miginfocom.swing.MigLayout;
+
 import org.willprice.scotlandyard.gamelogic.Initialisable;
 import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
 import org.willprice.scotlandyard.gui.tickets.BlackTicketLabel;
@@ -30,6 +35,9 @@ public class InformationPanel extends JPanel implements ActionListener {
 	public InformationPanel(GUI gui) {
 		this.gui = gui;
 
+		MigLayout layout = new MigLayout(new LC(), new AC(), new AC());
+		setLayout(layout);
+		
 		createPersistenceButtons();
 		createCurrentPlayerLabel();
 		createPlayerTicketsInformation();
@@ -51,7 +59,7 @@ public class InformationPanel extends JPanel implements ActionListener {
 	}
 	private void createCurrentPlayerLabel() {
 		currentPlayer = new JLabel("Current Player: " + gui.getCurrentPlayerId());
-		add(currentPlayer);
+		add(currentPlayer, new CC().cell(0, 1));
 	}
 
 	private void createPersistenceButtons() {
