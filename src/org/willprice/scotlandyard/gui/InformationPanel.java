@@ -55,17 +55,16 @@ public class InformationPanel extends JPanel implements ActionListener {
 	}
 
 	private void createPersistenceButtons() {
-		JButton save = new JButton("Save");
-		JButton load = new JButton("Load");
-
-		save.addActionListener(this);
-		load.addActionListener(this);
-
-		save.setActionCommand("save");
-		load.setActionCommand("load");
-
-		add(save);
-		add(load);
+		createAndAddPersistenceButton("Save");
+		createAndAddPersistenceButton("Load");
+		
+	}
+	
+	private void createAndAddPersistenceButton(String name) {
+		JButton button = new JButton(name);
+		button.addActionListener(this);
+		button.setActionCommand(name);
+		add(button);
 	}
 
 	private void createPlayerTicketsInformation() {
@@ -93,7 +92,7 @@ public class InformationPanel extends JPanel implements ActionListener {
 		File file;
 		int returnVal = -1;
 		
-		if (e.getActionCommand().equals("save")) {
+		if (e.getActionCommand().equals("Save")) {
 			returnVal = fileChooser.showSaveDialog(gui.getWindow());
 		} else {
 			returnVal = fileChooser.showOpenDialog(gui.getWindow());
@@ -102,7 +101,7 @@ public class InformationPanel extends JPanel implements ActionListener {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = fileChooser.getSelectedFile();
 			filename = file.getAbsolutePath();
-			if (e.getActionCommand().equals("save")) {
+			if (e.getActionCommand().equals("Save")) {
 				gui.getControllable().saveGame(filename);
 			} else {
 				gui.getControllable().loadGame(filename);
