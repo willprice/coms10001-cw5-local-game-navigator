@@ -60,9 +60,9 @@ public class GUI extends GameVisualiser {
 				message = "You clever sons of bitches, you got Mr X!";
 			}
 			winningWindow.add(new JLabel(message));
+			winningWindow.pack();
 			winningWindow.setVisible(true);
 			winningWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			System.exit(0);
 		}
 	}
 
