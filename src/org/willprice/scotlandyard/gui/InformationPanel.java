@@ -95,7 +95,7 @@ public class InformationPanel extends JPanel implements ActionListener {
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = fileChooser.getSelectedFile();
-			filename = file.getName();
+			filename = file.getAbsolutePath();
 			if (e.getActionCommand().equals("save")) {
 				gui.getControllable().saveGame(filename);
 			} else {
