@@ -148,10 +148,7 @@ public class MapPanel extends JPanel implements MouseListener {
 		if (move) {
 			gui.updateGlobalState();
 		} else {
-			JFrame moveError = new JFrame();
-			moveError.add(new JLabel("Failed To Move"));
-			moveError.setVisible(true);
-			moveError.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			new MoveErrorFrame();
 		}
 	}
 
