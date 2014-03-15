@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -16,12 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
-import org.willprice.scotlandyard.gamelogic.Controllable;
+import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
 
 public class MapPanel extends JPanel implements MouseListener {
@@ -29,9 +24,9 @@ public class MapPanel extends JPanel implements MouseListener {
 
 	private SelectTicketFrame selectTicketFrame;
 	private BufferedImage map;
-	private Dimension mapSize;
 	private BufferedImage mrXImage;
 	private BufferedImage detectiveImage;
+	private Dimension mapSize;
 	private List<Point> detectiveLocations;
 	private Point mrXPosition;
 	private GUI gui;
@@ -55,10 +50,6 @@ public class MapPanel extends JPanel implements MouseListener {
 	}
 
 	public void draw() {
-		redraw();
-	}
-
-	public void redraw() {
 		revalidate();
 		repaint();
 	}
@@ -143,13 +134,16 @@ public class MapPanel extends JPanel implements MouseListener {
 	}
 
 	public void movePlayer(Ticket ticket) {
-		Boolean move = gui.getControllable().movePlayer(
-				gui.getCurrentPlayerId(), targetNodeId, ticket.getTicketType());
-		if (move) {
+		Boolean moveSuccess = moveCurrentPlayer(targetNodeId, ticket.getTicketType());
+		if (moveSuccess) {
 			gui.updateGlobalState();
 		} else {
 			new MoveErrorFrame();
 		}
+	}
+
+	private Boolean moveCurrentPlayer(Integer targetNodeId, TicketType ticketType) {
+		return gui.getControllable().movePlayer(gui.getCurrentPlayerId(), targetNodeId, ticketType);
 	}
 
 	public Dimension getMapSize() {

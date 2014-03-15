@@ -2,12 +2,10 @@ package org.willprice.scotlandyard.gamelogic;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Vector;
 
 import org.willprice.scotlandyard.Reader;
 import org.willprice.scotlandyard.gamelogic.graph.Edge;
@@ -17,7 +15,6 @@ import org.willprice.scotlandyard.gamelogic.graph.Edge.EdgeType;
 import org.willprice.scotlandyard.gamelogic.player.Detective;
 import org.willprice.scotlandyard.gamelogic.player.MrX;
 import org.willprice.scotlandyard.gamelogic.player.Player;
-import org.willprice.scotlandyard.gamelogic.tickets.BlackTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
 import org.willprice.scotlandyard.util.PersistentStore;
 

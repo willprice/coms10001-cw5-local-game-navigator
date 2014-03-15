@@ -1,18 +1,12 @@
 package org.willprice.scotlandyard.gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 import org.willprice.scotlandyard.gamelogic.Controllable;
 import org.willprice.scotlandyard.gamelogic.GameState;
@@ -20,7 +14,6 @@ import org.willprice.scotlandyard.gamelogic.GameVisualiser;
 import org.willprice.scotlandyard.gamelogic.MapVisualisable;
 import org.willprice.scotlandyard.gamelogic.PlayerVisualisable;
 import org.willprice.scotlandyard.gamelogic.Visualisable;
-import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
 
 import net.miginfocom.layout.AC;
 import net.miginfocom.layout.CC;
@@ -51,12 +44,9 @@ public class GUI extends GameVisualiser {
 	}
 
 	public void updateGlobalState() {
-		// TODO: Move 
 		Integer nextPlayerToMove = getVisualisable().getNextPlayerToMove();
-		System.out.println("NextPlayerToMove: " + nextPlayerToMove);
 		setCurrentPlayerId(nextPlayerToMove);
-
-		mapPanel.redraw();
+		mapPanel.draw();
 		informationPanel.updateAndRedraw();
 	}
 
