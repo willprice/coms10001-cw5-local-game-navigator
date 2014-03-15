@@ -24,4 +24,8 @@ public class Node {
 	public String name() {
 		return name;
 	}
+	
+	public Boolean equals(Node node) {
+		return node.name() == name();
+	}
 }

@@ -49,6 +49,21 @@ public class GUI extends GameVisualiser {
 		mapPanel.redraw();
 		mrXMovesPanel.drawTickets(getVisualisable().getMoveList(getMrXId()));
 		informationPanel.updateAndRedraw();
+		if (getVisualisable().isGameOver()) {
+			System.out.println("Game over");
+			Integer winner = getVisualisable().getWinningPlayerId();
+			JFrame winningWindow = new JFrame();
+			String message;
+			if (winner == getMrXId()) {
+				message = "Well Done Mr X. You outwitted the detectives!";
+			} else {
+				message = "You clever sons of bitches, you got Mr X!";
+			}
+			winningWindow.add(new JLabel(message));
+			winningWindow.setVisible(true);
+			winningWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			System.exit(0);
+		}
 	}
 
 	private void drawMrXMovesPanel() {

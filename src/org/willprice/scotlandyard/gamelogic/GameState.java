@@ -220,11 +220,11 @@ Visualisable, Controllable {
 
 	@Override
 	public Boolean isGameOver() {
-		if (round == numberOfRounds) {
+		if (round >= numberOfRounds) {
 			return true;
 		}
 		for (Detective detective : detectives) {
-			if (mrX.getPosition() == detective.getPosition()) {
+			if (mrX.getPosition().equals(detective.getPosition())) {
 				return true;				
 			}
 		}
@@ -272,7 +272,6 @@ Visualisable, Controllable {
 	private void updateRound() {
 		if (isEndOfRound()) {
 			round++;
-
 		}
 	}
 
