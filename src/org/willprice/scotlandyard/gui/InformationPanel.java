@@ -1,5 +1,6 @@
 package org.willprice.scotlandyard.gui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -31,16 +32,24 @@ public class InformationPanel extends JPanel implements ActionListener {
 	private BusTicketLabel busTickets;
 	private TaxiTicketLabel taxiTickets;
 	private UndergroundTicketLabel undergroundTickets;
+	private JPanel buttonsAndLabelPanel;
+	private JPanel playerTicketsPanel;
 
 	public InformationPanel(GUI gui) {
 		this.gui = gui;
 
-		MigLayout layout = new MigLayout(new LC(), new AC(), new AC());
+		MigLayout layout = new MigLayout(new LC().flowX(), new AC(), new AC());
 		setLayout(layout);
+		
+		buttonsAndLabelPanel = new JPanel(new MigLayout(new LC().wrapAfter(2).flowX(), null, null));
+		playerTicketsPanel = new JPanel(new MigLayout(new LC().wrapAfter(3).flowY(), null, null)); 
 		
 		createPersistenceButtons();
 		createCurrentPlayerLabel();
 		createPlayerTicketsInformation();
+		
+		add(buttonsAndLabelPanel);
+		add(playerTicketsPanel);
 	}
 
 	public void updateAndRedraw() {
@@ -59,7 +68,7 @@ public class InformationPanel extends JPanel implements ActionListener {
 	}
 	private void createCurrentPlayerLabel() {
 		currentPlayer = new JLabel("Current Player: " + gui.getCurrentPlayerId());
-		add(currentPlayer, new CC().cell(0, 1));
+		buttonsAndLabelPanel.add(currentPlayer);//, new CC().cell(0, 1));
 	}
 
 	private void createPersistenceButtons() {
@@ -72,7 +81,7 @@ public class InformationPanel extends JPanel implements ActionListener {
 		JButton button = new JButton(name);
 		button.addActionListener(this);
 		button.setActionCommand(name);
-		add(button);
+		buttonsAndLabelPanel.add(button);
 	}
 
 	private void createPlayerTicketsInformation() {
@@ -83,11 +92,11 @@ public class InformationPanel extends JPanel implements ActionListener {
 		taxiTickets = new TaxiTicketLabel();
 		undergroundTickets = new UndergroundTicketLabel();
 
-		add(doubleMoveTickets);
-		add(blackTickets);
-		add(busTickets);
-		add(taxiTickets);
-		add(undergroundTickets);
+		playerTicketsPanel.add(taxiTickets);
+		playerTicketsPanel.add(busTickets);
+		playerTicketsPanel.add(undergroundTickets);
+		playerTicketsPanel.add(doubleMoveTickets);
+		playerTicketsPanel.add(blackTickets);
 	}
 
 	public void setCurrentPlayer(int currentPlayer) {

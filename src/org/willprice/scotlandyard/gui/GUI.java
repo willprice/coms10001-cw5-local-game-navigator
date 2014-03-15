@@ -74,7 +74,7 @@ public class GUI extends GameVisualiser {
 
 	private void drawInformationPanel() {
 		informationPanel = new InformationPanel(this);
-		informationPanel.setBackground(new Color(244, 0, 0));
+//		informationPanel.setBackground(new Color(244, 0, 0));
 		informationPanel.updateAndRedraw();
 		panel.add(informationPanel, new CC().growX().height("20%"));
 	}

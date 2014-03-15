@@ -1,5 +1,6 @@
 package org.willprice.scotlandyard.gui.tickets;
 
+import java.awt.Color;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -12,6 +13,7 @@ public abstract class TicketLabel extends JPanel {
 	protected ImageIcon icon;
 
 	public TicketLabel(Image image) {
+		setBackground(new Color(0, 0, 0, 0));
 		icon = new ImageIcon(image);
 		display();
 	}
