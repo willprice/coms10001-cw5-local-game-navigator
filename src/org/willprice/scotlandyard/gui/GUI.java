@@ -90,10 +90,7 @@ public class GUI extends GameVisualiser {
 
 	private void displayWindow() {
 		window.add(panel);
-		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		window.pack();
-		window.setVisible(true);
 	}
 	
 	private void initializeWindow() {
@@ -104,6 +101,9 @@ public class GUI extends GameVisualiser {
 		panel = new JPanel(layout);
 		
 		window.add(panel);
+		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		window.setVisible(true);
 	}
 
 	public int getCurrentPlayerId() {
