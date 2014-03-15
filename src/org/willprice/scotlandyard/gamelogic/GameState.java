@@ -242,8 +242,11 @@ Visualisable, Controllable {
 
 	@Override
 	public Integer getWinningPlayerId() {
-		// TODO Auto-generated method stub
-		return null;
+		for (Detective detective : detectives) {
+			if (detective.getPosition() == mrX.getPosition())
+				return detective.getPlayerId();
+		}
+		return -1;
 	}
 
 	@Override
