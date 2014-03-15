@@ -39,6 +39,7 @@ Visualisable, Controllable {
 	private int currentPlayerId = 1;
 	private PersistentStore store;
 	public int round = 1;
+	private int numberOfRounds = 23;
 
 	public GameState() throws IOException {
 		Reader reader = new Reader();
@@ -219,11 +220,11 @@ Visualisable, Controllable {
 
 	@Override
 	public Boolean isGameOver() {
-		if (round == 22) {
+		if (round >= numberOfRounds) {
 			return true;
 		}
 		for (Detective detective : detectives) {
-			if (mrX.getPosition() == detective.getPosition()) {
+			if (mrX.getPosition().equals(detective.getPosition())) {
 				return true;				
 			}
 		}
@@ -242,8 +243,11 @@ Visualisable, Controllable {
 
 	@Override
 	public Integer getWinningPlayerId() {
-		// TODO Auto-generated method stub
-		return null;
+		for (Detective detective : detectives) {
+			if (detective.getPosition() == mrX.getPosition())
+				return detective.getPlayerId();
+		}
+		return mrX.getPlayerId();
 	}
 
 	@Override
@@ -268,7 +272,6 @@ Visualisable, Controllable {
 	private void updateRound() {
 		if (isEndOfRound()) {
 			round++;
-
 		}
 	}
 

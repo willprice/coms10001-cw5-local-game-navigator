@@ -63,17 +63,16 @@ public class InformationPanel extends JPanel implements ActionListener {
 	}
 
 	private void createPersistenceButtons() {
-		JButton save = new JButton("Save");
-		JButton load = new JButton("Load");
-
-		save.addActionListener(this);
-		load.addActionListener(this);
-
-		save.setActionCommand("save");
-		load.setActionCommand("load");
-
-		add(save);
-		add(load);
+		createAndAddPersistenceButton("Save");
+		createAndAddPersistenceButton("Load");
+		
+	}
+	
+	private void createAndAddPersistenceButton(String name) {
+		JButton button = new JButton(name);
+		button.addActionListener(this);
+		button.setActionCommand(name);
+		add(button);
 	}
 
 	private void createPlayerTicketsInformation() {
@@ -95,28 +94,38 @@ public class InformationPanel extends JPanel implements ActionListener {
 		this.currentPlayer.setText("Current Player: " + currentPlayer);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent event) {
 		JFileChooser fileChooser = new JFileChooser();
-		String filename;
-		File file;
-		int returnVal = -1;
-		
-		if (e.getActionCommand().equals("save")) {
+
+		int returnVal = showFileChooser(event, fileChooser);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			String filename = file.getAbsolutePath();
+			if (event.getActionCommand().equals("Save")) {
+				saveGame(filename);
+			} else {
+				loadGame(filename);
+			}
+		}
+	}
+
+	private void saveGame(String filename) {
+		gui.getControllable().saveGame(filename);
+	}
+
+	private int showFileChooser(ActionEvent e, JFileChooser fileChooser) {
+		int returnVal;
+		if (e.getActionCommand().equals("Save")) {
 			returnVal = fileChooser.showSaveDialog(gui.getWindow());
 		} else {
 			returnVal = fileChooser.showOpenDialog(gui.getWindow());
 		}
+		return returnVal;
+	}
 
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			file = fileChooser.getSelectedFile();
-			filename = file.getAbsolutePath();
-			if (e.getActionCommand().equals("save")) {
-				gui.getControllable().saveGame(filename);
-			} else {
-				gui.getControllable().loadGame(filename);
-				gui.updateCurrentPlayer();
-				gui.updateGlobalState();
-			}
-		}
+	private void loadGame(String filename) {
+		gui.getControllable().loadGame(filename);
+		gui.updateCurrentPlayer();
+		gui.updateGlobalState();
 	}
 }

@@ -68,17 +68,9 @@ public class MapPanel extends JPanel implements MouseListener {
 		for (int player : gui.getPlayers()) {
 			if (player == currentPlayer) {
 				Point position = getPlayerLocation(player);
-				x = position.x;
-				y = position.y;
-				if (player != gui.getMrXId()) {
-					width = detectiveImage.getWidth();
-					height = detectiveImage.getHeight();
-				} else {
-					width = mrXImage.getWidth();
-					height = mrXImage.getHeight();
-				}
-				x -= width/2;
-				y -= height/2;
+				width = height = 30;
+				x = position.x - width/2;
+				y = position.y - width/2;
 			}
 		}
 		g.setColor(new Color(255,0,0));
