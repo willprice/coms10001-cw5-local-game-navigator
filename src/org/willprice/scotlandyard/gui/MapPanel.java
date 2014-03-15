@@ -17,7 +17,9 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import org.willprice.scotlandyard.gamelogic.Controllable;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
@@ -144,23 +146,13 @@ public class MapPanel extends JPanel implements MouseListener {
 		Boolean move = gui.getControllable().movePlayer(
 				gui.getCurrentPlayerId(), targetNodeId, ticket.getTicketType());
 		if (move) {
-			System.out.println("Yes, we moved!, Player: " + gui.getCurrentPlayerId());
 			gui.updateGlobalState();
 		} else {
-			System.out.println("Can't move! :D, Player: " + gui.getCurrentPlayerId());
+			JFrame moveError = new JFrame();
+			moveError.add(new JLabel("Failed To Move"));
+			moveError.setVisible(true);
+			moveError.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		}
-	}
-
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	public void mouseExited(MouseEvent e) {
-	}
-
-	public void mousePressed(MouseEvent e) {
-	}
-
-	public void mouseReleased(MouseEvent e) {
 	}
 
 	public Dimension getMapSize() {
@@ -183,4 +175,9 @@ public class MapPanel extends JPanel implements MouseListener {
 		Point point = new Point(x, y);
 		return point;
 	}
+
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
 }

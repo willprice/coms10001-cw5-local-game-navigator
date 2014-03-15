@@ -231,7 +231,6 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 
 		int playerId = getCurrentPlayerId();
 		int nextPlayerId = (playerId % numberOfPlayers) + 1;
-		setCurrentPlayerId(nextPlayerId);
 		return nextPlayerId;
 	}
 
@@ -257,9 +256,13 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 			player.move(edge, ticketType);
 			updateDiscardStacks(ticketType, player);
 			updateRound();
+			updateCurrentPlayer();
 			return true;
 		}
 		return false;
+	}
+	private void updateCurrentPlayer() {
+		setCurrentPlayerId(getNextPlayerToMove());
 	}
 
 	private void updateRound() {
