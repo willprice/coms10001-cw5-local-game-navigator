@@ -137,11 +137,10 @@ public class Graph {
 		return node;
 	}
 
-	public Edge findTraversableEdge(Integer targetNodeId, TicketType ticketType, List<Edge> currentlyConnectedEdges) {
-		System.out.println(currentlyConnectedEdges.size());
-		for (Edge edge : currentlyConnectedEdges) {
-			String nodeId = Integer.toString(targetNodeId);
-			if (edge.connectsNode(nodeId)
+	public Edge findTraversableEdge(String currentNodeId, String targetNodeId, TicketType ticketType) {
+		List<Edge> connectedEdges = edges(currentNodeId);
+		for (Edge edge : connectedEdges) {
+			if (edge.connectsNode(targetNodeId)
 					&& edgeCanBeTraversedByTicket(edge.type(), ticketType)) {
 				return edge;
 			}

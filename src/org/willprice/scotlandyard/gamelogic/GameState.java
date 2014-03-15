@@ -23,7 +23,7 @@ import org.willprice.scotlandyard.util.PersistentStore;
  * to implement the interfaces that we have provided you with
  */
 public class GameState implements MapVisualisable, PlayerVisualisable,
-		Visualisable, Controllable {
+Visualisable, Controllable {
 
 	/**
 	 * Variable that will hold the filename for the map
@@ -219,8 +219,15 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 
 	@Override
 	public Boolean isGameOver() {
-		// TODO Auto-generated method stub
-		return null;
+		if (round == 22) {
+			return true;
+		}
+		for (Detective detective : detectives) {
+			if (mrX.getPosition() == detective.getPosition()) {
+				return true;				
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -247,10 +254,8 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 		if (!player.hasTicket(Ticket.newTicket(ticketType)) && round != 1) {
 			return false;
 		}
-		List<Edge> currentlyConnectedEdges = graph.edges(player.getPosition()
-				.name());
-		Edge edge = graph.findTraversableEdge(targetNodeId, ticketType,
-				currentlyConnectedEdges);
+		String currentNodeId = player.getPosition().name();
+		Edge edge = graph.findTraversableEdge(currentNodeId, targetNodeId.toString(), ticketType);
 		if (edge != null) {
 			player.move(edge, ticketType);
 			updateDiscardStacks(ticketType, player);
@@ -263,7 +268,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 	private void updateRound() {
 		if (isEndOfRound()) {
 			round++;
-		
+
 		}
 	}
 
