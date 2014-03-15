@@ -66,15 +66,18 @@ public class GUI extends GameVisualiser {
 
 	void drawMapPanel() {
 		try {
-			setMapPanel(new MapPanel("resources/"
-					+ getMapVisualisable().getMapFilename(), this));
-
-			JScrollPane scrollPane = new JScrollPane(getMapPanel());
-			scrollPane.setMaximumSize(getMapPanel().getMapSize());
-			panel.add(scrollPane, new CC().height("80%"));
+			String mapPath = "resources/" + getMapVisualisable().getMapFilename();
+			setMapPanel(new MapPanel(mapPath, this));
+			drawMapScrollPane();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void drawMapScrollPane() {
+		JScrollPane scrollPane = new JScrollPane(getMapPanel());
+		scrollPane.setMaximumSize(getMapPanel().getMapSize());
+		panel.add(scrollPane, new CC().height("80%"));
 	}
 
 	private void displayWindow() {
