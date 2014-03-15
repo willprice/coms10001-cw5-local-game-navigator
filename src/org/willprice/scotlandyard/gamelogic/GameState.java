@@ -228,6 +228,7 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 
 		int playerId = getCurrentPlayerId();
 		int nextPlayerId = (playerId % numberOfPlayers) + 1;
+		setCurrentPlayerId(nextPlayerId);
 		return nextPlayerId;
 	}
 
@@ -253,13 +254,9 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 			player.move(edge, ticketType);
 			updateDiscardStacks(ticketType, player);
 			updateRound();
-			updateCurrentPlayer();
 			return true;
 		}
 		return false;
-	}
-	private void updateCurrentPlayer() {
-		setCurrentPlayerId(getNextPlayerToMove());
 	}
 
 	private void updateRound() {
@@ -314,11 +311,13 @@ public class GameState implements MapVisualisable, PlayerVisualisable,
 	}
 
 	private boolean clickIsWithinNodeXBound(Point clickPoint, Point nodePoint) {
-		return ((clickPoint.x >= (nodePoint.x - 10)) && (clickPoint.x <= (nodePoint.x + 10)));
+		int delta = 10;
+		return ((clickPoint.x >= (nodePoint.x - delta)) && (clickPoint.x <= (nodePoint.x + delta)));
 	}
 
 	private boolean clickIsWithinNodeYBound(Point clickPoint, Point nodePoint) {
-		return ((clickPoint.y >= (nodePoint.y - 10)) && (clickPoint.y <= (nodePoint.y + 10)));
+		int delta = 10;
+		return ((clickPoint.y >= (nodePoint.y - delta)) && (clickPoint.y <= (nodePoint.y + delta)));
 	}
 
 	@Override

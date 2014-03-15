@@ -3,7 +3,6 @@ package org.willprice.scotlandyard.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -49,7 +48,7 @@ public class MapPanel extends JPanel implements MouseListener {
 		mapSize = new Dimension(map.getWidth(), map.getHeight());
 	}
 
-	public void draw() {
+	public void redraw() {
 		revalidate();
 		repaint();
 	}
@@ -64,7 +63,6 @@ public class MapPanel extends JPanel implements MouseListener {
 	}
 
 	private void paintCurrentPlayerCircle(Graphics g) {
-		g = (Graphics2D) g;
 		int currentPlayer = gui.getCurrentPlayerId();
 		int width = 0, height = 0, x = 0, y = 0;
 		for (int player : gui.getPlayers()) {
@@ -72,7 +70,7 @@ public class MapPanel extends JPanel implements MouseListener {
 				Point position = getPlayerLocation(player);
 				x = position.x;
 				y = position.y;
-				if (player != gui.getVisualisable().getMrXIdList().get(0)) {
+				if (player != gui.getMrXId()) {
 					width = detectiveImage.getWidth();
 					height = detectiveImage.getHeight();
 				} else {
@@ -90,7 +88,7 @@ public class MapPanel extends JPanel implements MouseListener {
 
 
 	private void paintMrX(Graphics g) {
-		Integer mrX = gui.getVisualisable().getMrXIdList().get(0);
+		Integer mrX = gui.getMrXId();
 		this.mrXPosition = getPlayerLocation(mrX);
 		if (gui.getVisualisable().isVisible(mrX)) {
 			paintPlayer(g, mrXPosition, mrXImage);

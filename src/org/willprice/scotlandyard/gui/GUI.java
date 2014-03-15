@@ -1,7 +1,6 @@
 package org.willprice.scotlandyard.gui;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.List;
 import javax.swing.*;
 
 import org.willprice.scotlandyard.gamelogic.Controllable;
-import org.willprice.scotlandyard.gamelogic.GameState;
 import org.willprice.scotlandyard.gamelogic.GameVisualiser;
 import org.willprice.scotlandyard.gamelogic.MapVisualisable;
 import org.willprice.scotlandyard.gamelogic.PlayerVisualisable;
@@ -44,9 +42,8 @@ public class GUI extends GameVisualiser {
 	}
 
 	public void updateGlobalState() {
-		Integer nextPlayerToMove = getVisualisable().getNextPlayerToMove();
-		setCurrentPlayerId(nextPlayerToMove);
-		mapPanel.draw();
+		setCurrentPlayerId(getVisualisable().getNextPlayerToMove());
+		mapPanel.redraw();
 		informationPanel.updateAndRedraw();
 	}
 
@@ -59,7 +56,6 @@ public class GUI extends GameVisualiser {
 	private void drawInformationPanel() {
 		informationPanel = new InformationPanel(this);
 		informationPanel.setBackground(new Color(244, 0, 0));
-		informationPanel.setCurrentPlayer(getCurrentPlayerId());
 		informationPanel.updateAndRedraw();
 		panel.add(informationPanel, new CC().growX().height("20%"));
 	}
@@ -72,7 +68,6 @@ public class GUI extends GameVisualiser {
 			JScrollPane scrollPane = new JScrollPane(getMapPanel());
 			scrollPane.setMaximumSize(getMapPanel().getMapSize());
 			panel.add(scrollPane, new CC().height("80%"));
-			mapPanel.draw();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -124,10 +119,6 @@ public class GUI extends GameVisualiser {
 		return visualisable;
 	}
 
-	public boolean clickIsWithinNodeXBound(Point clickPoint, Point nodePoint, GameState gameState) {
-		return ((clickPoint.x >= (nodePoint.x - 10)) && (clickPoint.x <= (nodePoint.x + 10)));
-	}
-
 	public MapVisualisable getMapVisualisable() {
 		return mapVisualisable;
 	}
@@ -141,6 +132,10 @@ public class GUI extends GameVisualiser {
 		players.addAll(getVisualisable().getDetectiveIdList());
 		players.addAll(getVisualisable().getMrXIdList());
 		return players;
+	}
+
+	public int getMrXId() {
+		return getVisualisable().getMrXIdList().get(0);
 	}
 
 }

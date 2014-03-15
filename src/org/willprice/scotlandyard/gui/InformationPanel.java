@@ -2,8 +2,11 @@ package org.willprice.scotlandyard.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -65,7 +68,7 @@ public class InformationPanel extends JPanel implements ActionListener {
 		add(save);
 		add(load);
 	}
-	
+
 	private void createPlayerTicketsInformation() {
 		// TODO: rename me!
 		doubleMoveTickets = new DoubleMoveTicketLabel();
@@ -85,12 +88,21 @@ public class InformationPanel extends JPanel implements ActionListener {
 		this.currentPlayer.setText("Current Player: " + currentPlayer);
 	}
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("save")) {
-			gui.getControllable().saveGame("save_game.sy");
-		} else {
-			gui.getControllable().loadGame("save_game.sy");
-			gui.updateCurrentPlayer();
-			gui.updateGlobalState();
+		JFileChooser fileChooser = new JFileChooser();
+		String filename;
+		File file;
+		int returnVal = fileChooser.showOpenDialog(new JFrame());
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = fileChooser.getSelectedFile();
+			filename = file.getName();
+			if (e.getActionCommand().equals("save")) {
+				gui.getControllable().saveGame(filename);
+			} else {
+				gui.getControllable().loadGame(filename);
+				gui.updateCurrentPlayer();
+				gui.updateGlobalState();
+			}
 		}
 	}
 }
