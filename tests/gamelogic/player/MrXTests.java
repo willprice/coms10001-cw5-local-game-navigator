@@ -11,7 +11,7 @@ import org.willprice.scotlandyard.gamelogic.tickets.BlackTicket;
 public class MrXTests extends PlayerTests {
 	@Override
 	public void setUp() {
-		player = new MrX(null);
+		player = new MrX();
 	}
 
 	@Test

@@ -32,13 +32,15 @@ public class PersistentStore {
 		try {
 			FileReader reader = new FileReader(filename);
 			ObjectInputStream in = xstream.createObjectInputStream(reader);
+			state.setCurrentPlayerId((int) in.readObject() - 1);
+			state.setRound((Integer) in.readObject());
+			state.setNumberOfDetectives((Integer) in.readObject());
 			state.setDetectives((List<Detective>) in.readObject());
 			state.setMrX((MrX) in.readObject());
 			state.setMrXIdList((List<Integer>) in.readObject());
 			state.setPlayers((List<Player>) in.readObject());
-			state.setNumberOfDetectives((Integer) in.readObject());
-			readPreviousPlayerIdAsCurrentPlayer(in);
 			in.close();
+			System.out.println("LoadGame mrX: " + state.getMrX().taxiTicketDiscardStack);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,11 +48,6 @@ public class PersistentStore {
 			return false;
 		}
 		return true;
-	}
-
-	private void readPreviousPlayerIdAsCurrentPlayer(ObjectInputStream in)
-			throws IOException, ClassNotFoundException {
-		state.setCurrentPlayerId((int) in.readObject() - 1);
 	}
 
 	public Boolean saveGame(GameState state, String filename) {
@@ -62,12 +59,13 @@ public class PersistentStore {
 		try {
 			Writer writer = new FileWriter(filename);
 			ObjectOutputStream out = xstream.createObjectOutputStream(writer);
+			out.writeObject(state.getCurrentPlayerId());
+			out.writeObject(state.getRound());
+			out.writeObject(state.getNumberOfDetectives());
 			out.writeObject(state.getDetectives());
 			out.writeObject(state.getMrX());
 			out.writeObject(state.getMrXIdList());
 			out.writeObject(state.getPlayers());
-			out.writeObject(state.getNumberOfDetectives());
-			out.writeObject(state.getCurrentPlayerId());
 			out.close();
 		} catch (Exception e) {
 			System.err.println("Could not write save game file");

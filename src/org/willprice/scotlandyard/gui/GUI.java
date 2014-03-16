@@ -50,20 +50,24 @@ public class GUI extends GameVisualiser {
 		mrXMovesPanel.drawTickets(getVisualisable().getMoveList(getMrXId()));
 		informationPanel.updateAndRedraw();
 		if (getVisualisable().isGameOver()) {
-			System.out.println("Game over");
-			Integer winner = getVisualisable().getWinningPlayerId();
-			JFrame winningWindow = new JFrame();
-			String message;
-			if (winner == getMrXId()) {
-				message = "Well Done Mr X. You outwitted the detectives!";
-			} else {
-				message = "You clever sons of bitches, you got Mr X!";
-			}
-			winningWindow.add(new JLabel(message));
-			winningWindow.pack();
-			winningWindow.setVisible(true);
-			winningWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			winGame();
 		}
+	}
+
+	private void winGame() {
+		System.out.println("Game over");
+		Integer winner = getVisualisable().getWinningPlayerId();
+		JFrame winningWindow = new JFrame();
+		String message;
+		if (winner == getMrXId()) {
+			message = "Well Done Mr X. You outwitted the detectives!";
+		} else {
+			message = "You clever sons of bitches, you got Mr X!";
+		}
+		winningWindow.add(new JLabel(message));
+		winningWindow.pack();
+		winningWindow.setVisible(true);
+		winningWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
 	private void drawMrXMovesPanel() {

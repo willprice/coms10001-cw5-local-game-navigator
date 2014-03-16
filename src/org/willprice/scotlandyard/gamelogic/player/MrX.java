@@ -15,17 +15,15 @@ import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
 import org.willprice.scotlandyard.gamelogic.tickets.UndergroundTicket;
 
 public class MrX extends Player {
-
-	private GameState gameState;
 	private Stack<BlackTicket> blackTickets = new Stack<>();
 	private Stack<DoubleMoveTicket> doubleMoveTickets = new Stack<>();
 	private List<Edge> blackTicketEdges = new ArrayList<Edge>();
 	public Stack<BusTicket> busTicketDiscardStack = new Stack<>();
 	public Stack<TaxiTicket> taxiTicketDiscardStack = new Stack<>();
 	public Stack<UndergroundTicket> undergroundTicketDiscardStack = new Stack<>();
+	private boolean firstMove = true;
 
-	public MrX(GameState gameState) {
-		this.gameState = gameState;
+	public MrX() {
 		playerId = 1;
 		initTickets(5, blackTickets, BlackTicket.class);
 		initTickets(2, doubleMoveTickets, DoubleMoveTicket.class);
@@ -45,20 +43,10 @@ public class MrX extends Player {
 
 	@Override
 	public boolean hasTicket(Ticket ticket) {
-		switch (ticket.getTicketType()) {
-		case DoubleMove:
-			return doubleMoveTickets.size() > 0;
-		case SecretMove:
-			return blackTickets.size() > 0;
-		case Bus:
-			return busTicketDiscardStack.size() > 0;
-		case Taxi:
-			return taxiTicketDiscardStack.size() > 0;
-		case Underground:
-			return undergroundTicketDiscardStack.size() > 0;
-		default:
-			return false;
+		if (firstMove) {
+			return true;
 		}
+		return getNumberOfTickets(ticket.getTicketType()) > 0;
 	}
 
 	@Override
@@ -81,7 +69,8 @@ public class MrX extends Player {
 
 	@Override
 	public void removeTicket(TicketType ticketType) {
-		if (gameState.round == 1) {
+		if (firstMove) {
+			firstMove = false;
 			return;
 		}
 		switch (ticketType) {
@@ -106,7 +95,7 @@ public class MrX extends Player {
 		
 	}
 
-	public void addTicketToDiscardStack(GameState gameState, TicketType ticketType) {
+	public void addTicketToDiscardStack(TicketType ticketType) {
 		switch (ticketType) {
 		case Bus:
 			busTicketDiscardStack.push(new BusTicket());

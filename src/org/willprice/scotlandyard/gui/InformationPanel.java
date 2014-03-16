@@ -85,7 +85,6 @@ public class InformationPanel extends JPanel implements ActionListener {
 	}
 
 	private void createPlayerTicketsInformation() {
-		// TODO: rename me!
 		doubleMoveTickets = new DoubleMoveTicketLabel();
 		blackTickets = new BlackTicketLabel();
 		busTickets = new BusTicketLabel();
@@ -134,7 +133,6 @@ public class InformationPanel extends JPanel implements ActionListener {
 
 	private void loadGame(String filename) {
 		gui.getControllable().loadGame(filename);
-		gui.updateCurrentPlayer();
 		gui.updateGlobalState();
 	}
 }

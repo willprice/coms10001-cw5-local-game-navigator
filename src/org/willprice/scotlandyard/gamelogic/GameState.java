@@ -174,7 +174,7 @@ Visualisable, Controllable {
 	}
 
 	private void initialiseMrX() {
-		setMrX(new MrX(this));
+		setMrX(new MrX());
 		getMrX().setPosition(graph.getRandomUnpickedNode());
 		setMrXIdList(new ArrayList<Integer>());
 		getMrXIdList().add(getMrX().getPlayerId());
@@ -254,8 +254,11 @@ Visualisable, Controllable {
 	public Boolean movePlayer(Integer playerId, Integer targetNodeId,
 			TicketType ticketType) {
 		Player player = getPlayer(playerId);
+		System.out.println("Moving player: " + player);
+		System.out.println("Player has " + ticketType + "-type ticket? " + player.hasTicket(Ticket.newTicket(ticketType)));
+		System.out.println("State MrX TaxiTickets: " + mrX.taxiTicketDiscardStack + "\n");
 
-		if (!player.hasTicket(Ticket.newTicket(ticketType)) && round != 1) {
+		if (!player.hasTicket(Ticket.newTicket(ticketType))) {
 			return false;
 		}
 		String currentNodeId = player.getPosition().name();
@@ -281,12 +284,13 @@ Visualisable, Controllable {
 
 	private void updateDiscardStacks(TicketType ticketType, Player player) {
 		if (player.getClass() != MrX.class) {
+			System.out.println("Adding tickets to MrX: " + getMrX());
 			addTicketToDiscardStack(ticketType);
 		}
 	}
 
 	private void addTicketToDiscardStack(TicketType ticketType) {
-		mrX.addTicketToDiscardStack(this, ticketType);
+		getMrX().addTicketToDiscardStack(ticketType);
 	}
 
 	public boolean edgeCanBeTraversedByTicket(EdgeType edgeType,
@@ -337,5 +341,13 @@ Visualisable, Controllable {
 	@Override
 	public Boolean loadGame(String filename) {
 		return store.loadGame(filename);
+	}
+
+	public void setRound(Integer round) {
+		this.round = round;
+	}
+
+	public Integer getRound() {
+		return round;
 	}
 }
