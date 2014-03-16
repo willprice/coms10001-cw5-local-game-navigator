@@ -46,6 +46,10 @@ public class GUI extends GameVisualiser {
 
 	public void updateGlobalState() {
 		setCurrentPlayerId(getVisualisable().getNextPlayerToMove());
+		updateGlobalStateWithoutIncrementingPlayerId();
+	}
+	
+	public void updateGlobalStateWithoutIncrementingPlayerId() {
 		mapPanel.redraw();
 		mrXMovesPanel.drawTickets(getVisualisable().getMoveList(getMrXId()));
 		informationPanel.updateAndRedraw();

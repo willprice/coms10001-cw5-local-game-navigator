@@ -41,6 +41,7 @@ Visualisable, Controllable {
 	public int round = 1;
 	private int numberOfRounds = 23;
 
+
 	public GameState() throws IOException {
 		Reader reader = new Reader();
 		reader.read("resources/graph.txt");
@@ -263,15 +264,17 @@ Visualisable, Controllable {
 		}
 		String currentNodeId = player.getPosition().name();
 		Edge edge = graph.findTraversableEdge(currentNodeId, targetNodeId.toString(), ticketType);
+		
 		if (edge != null) {
 			player.move(edge, ticketType);
 			updateDiscardStacks(ticketType, player);
 			updateRound();
 			return true;
 		}
+		
 		return false;
 	}
-
+	
 	private void updateRound() {
 		if (isEndOfRound()) {
 			round++;

@@ -15,7 +15,7 @@ public class Game {
 	}
 
 	public void run() throws IOException {
-		GameState state = new GameState(1);
+		GameState state = new GameState(3);
 		GUI gui = new GUI();
 		gui.registerMapVisualisable(state);
 		gui.registerPlayerVisualisable(state);

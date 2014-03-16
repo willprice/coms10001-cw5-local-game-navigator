@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
+import org.willprice.scotlandyard.gamelogic.tickets.DoubleMoveTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
 
 public class MapPanel extends JPanel implements MouseListener {
@@ -31,6 +32,8 @@ public class MapPanel extends JPanel implements MouseListener {
 	private GUI gui;
 
 	private Integer targetNodeId;
+
+	private boolean currentlyTakingDoubleMove = false;
 
 	public MapPanel(String filename, GUI gui) throws IOException {
 		this.gui = gui;
@@ -130,14 +133,23 @@ public class MapPanel extends JPanel implements MouseListener {
 	}
 
 	public void movePlayer(Ticket ticket) {
-		Boolean moveSuccess = moveCurrentPlayer(targetNodeId, ticket.getTicketType());
-		if (moveSuccess) {
-			gui.updateGlobalState();
-		} else {
-			new MoveErrorFrame();
-		}
+		if (ticket.getClass() == DoubleMoveTicket.class) {
+			currentlyTakingDoubleMove = true;
+			moveCurrentPlayer(targetNodeId, ticket.getTicketType());
+			selectTicketFrame.setVisible(true);
+		} else { 
+			Boolean moveSuccess = moveCurrentPlayer(targetNodeId, ticket.getTicketType());
+            if (moveSuccess && currentlyTakingDoubleMove == false) {
+                gui.updateGlobalState();
+            } else if (moveSuccess == false) {
+                new MoveErrorFrame();
+            } else if (moveSuccess && currentlyTakingDoubleMove == true) {
+            	gui.updateGlobalStateWithoutIncrementingPlayerId();
+            	currentlyTakingDoubleMove = false;
+            }
+        }
 	}
-
+	
 	private Boolean moveCurrentPlayer(Integer targetNodeId, TicketType ticketType) {
 		return gui.getControllable().movePlayer(gui.getCurrentPlayerId(), targetNodeId, ticketType);
 	}
