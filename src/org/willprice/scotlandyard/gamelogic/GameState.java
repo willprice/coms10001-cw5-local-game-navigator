@@ -251,8 +251,9 @@ Visualisable, Controllable {
 	@Override
 	public Integer getWinningPlayerId() {
 		for (Detective detective : detectives) {
-			if (detective.getPosition() == mrX.getPosition())
+			if (detective.getPosition().equals(mrX.getPosition())) {
 				return detective.getPlayerId();
+			}
 		}
 		return mrX.getPlayerId();
 	}
@@ -262,7 +263,7 @@ Visualisable, Controllable {
 			TicketType ticketType) {
 		Player player = getPlayer(playerId);
 
-		if (playerIsAlreadyOccupyingNode(playerId, targetNodeId)) {
+		if (detectiveOccupyingNode(targetNodeId)) {
 			return false;
 		}
 		if (!player.hasTicket(Ticket.newTicket(ticketType)) && ticketType != Initialisable.TicketType.SecretMove) {
@@ -281,10 +282,9 @@ Visualisable, Controllable {
 		return false;
 	}
 
-	private boolean playerIsAlreadyOccupyingNode(Integer playerId,
-			Integer targetNodeId) {
-		for (Detective detective : detectives) {
-			if (detective.getPosition().name().equals(targetNodeId) & detective.getPlayerId() != playerId) {
+	private boolean detectiveOccupyingNode(Integer targetNodeId) {
+		for (Player detective : getPlayers()) {
+			if (detective.getPosition().name().equals(targetNodeId)) {
 				return true;
 			}
 		}
