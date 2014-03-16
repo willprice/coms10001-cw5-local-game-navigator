@@ -259,7 +259,7 @@ Visualisable, Controllable {
 		System.out.println("State MrX TaxiTickets: " + mrX.taxiTicketDiscardStack + "\n");
 		System.out.println("Player has " + ticketType + "-type ticket? " + player.hasTicket(Ticket.newTicket(ticketType)));
 
-		if (!player.hasTicket(Ticket.newTicket(ticketType))) {
+		if (!player.hasTicket(Ticket.newTicket(ticketType)) && ticketType != Initialisable.TicketType.SecretMove) {
 			return false;
 		}
 		String currentNodeId = player.getPosition().name();
