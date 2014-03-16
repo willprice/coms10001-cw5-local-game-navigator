@@ -149,7 +149,7 @@ public class MapPanel extends JPanel implements MouseListener {
                 gui.updateGlobalState();
             } else if (moveSuccess == false) {
                 new MoveErrorFrame();
-            } else if (moveSuccess && currentlyTakingDoubleMove == true) {
+            } else if (moveSuccess && currentlyTakingDoubleMove) {
             	gui.updateGlobalStateWithoutIncrementingPlayerId();
             	currentlyTakingDoubleMove = false;
             }
