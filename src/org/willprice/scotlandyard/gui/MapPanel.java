@@ -35,11 +35,9 @@ public class MapPanel extends JPanel implements MouseListener {
 
 	private boolean currentlyTakingDoubleMove = false;
 
-	public MapPanel(String filename, GUI gui) throws IOException {
+	public MapPanel(String mapFilename, GUI gui) throws IOException {
 		this.gui = gui;
-
-		createDetectiveImageList();
-		readImages(filename);
+		readImages(mapFilename);
 		setPreferredSize(mapSize);
 		createSelectTicketFrame();
 		addMouseListener(this);
@@ -55,7 +53,7 @@ public class MapPanel extends JPanel implements MouseListener {
 
 	private void createSelectTicketFrame() {
 		selectTicketFrame = new SelectTicketFrame(gui);
-        selectTicketFrame.setLocationRelativeTo(null);
+		selectTicketFrame.setLocationRelativeTo(null);
 		selectTicketFrame.pack();
 	}
 
@@ -63,6 +61,7 @@ public class MapPanel extends JPanel implements MouseListener {
 		mrXImage = ImageIO.read(getClass().getResource("/mr_x.png"));
 		map = ImageIO.read(getClass().getResourceAsStream("/" + mapFilename));
 		mapSize = new Dimension(map.getWidth(), map.getHeight());
+		createDetectiveImageList();
 	}
 
 	public void redraw() {
@@ -144,17 +143,17 @@ public class MapPanel extends JPanel implements MouseListener {
 			selectTicketFrame.setVisible(true);
 		} else { 
 			Boolean moveSuccess = moveCurrentPlayer(targetNodeId, ticket.getTicketType());
-            if (moveSuccess && currentlyTakingDoubleMove == false) {
-                gui.updateGlobalStateAndUpdateCurrentPlayer();
-            } else if (moveSuccess == false) {
-                new MoveErrorFrame();
-            } else if (moveSuccess && currentlyTakingDoubleMove) {
-            	gui.updateGlobalState();
-            	currentlyTakingDoubleMove = false;
-            }
-        }
+			if (moveSuccess && currentlyTakingDoubleMove == false) {
+				gui.updateCurrentPlayer();
+			} else if (moveSuccess == false) {
+				new MoveErrorFrame();
+			} else if (moveSuccess && currentlyTakingDoubleMove) {
+				currentlyTakingDoubleMove = false;
+			}
+		}
+		gui.updateGlobalState();
 	}
-	
+
 	private Boolean moveCurrentPlayer(Integer targetNodeId, TicketType ticketType) {
 		return gui.getControllable().movePlayer(gui.getCurrentPlayerId(), targetNodeId, ticketType);
 	}

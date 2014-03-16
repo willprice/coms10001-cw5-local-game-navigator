@@ -55,7 +55,7 @@ public class GUI extends GameVisualiser {
 		setCurrentPlayerId(getVisualisable().getNextPlayerToMove());
 		updateGlobalState();
 	}
-	
+
 	public void updateGlobalState() {
 		mapPanel.redraw();
 		mrXMovesPanel.drawTickets(getVisualisable().getMoveList(getMrXId()));
@@ -133,7 +133,13 @@ public class GUI extends GameVisualiser {
 	}
 
 	public void updateCurrentPlayer() {
-		currentPlayerId = visualisable.getNextPlayerToMove();
+		int numberOfPlayers = getVisualisable().getDetectiveIdList().size() + getVisualisable().getMrXIdList().size();
+		Integer nextPlayerToMove = getVisualisable().getNextPlayerToMove();
+		if (nextPlayerToMove == 1) {
+			currentPlayerId = numberOfPlayers;
+		} else {
+			currentPlayerId = nextPlayerToMove - 1;
+		}
 	}
 
 	public Controllable getControllable() {
@@ -174,15 +180,15 @@ public class GUI extends GameVisualiser {
 	public static Image getBusTicketImage() {
 		return readImage("/bus_ticket.png");
 	}
-	
+
 	public static Image getTaxiTicketImage() {
 		return readImage("/taxi_ticket.png");
 	}
-	
+
 	public static Image getUndergroundTicketImage() {
 		return readImage("/tube_ticket.png");
 	}
-	
+
 	public static Image getDoubleMoveTicketImage() {
 		return readImage("/double_move_ticket.png");
 	}
@@ -200,7 +206,7 @@ public class GUI extends GameVisualiser {
 		}
 		return null;
 	}
-	
+
 	public JFrame getWindow() {
 		return window;
 	}

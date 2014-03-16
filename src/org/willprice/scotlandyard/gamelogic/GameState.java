@@ -244,7 +244,6 @@ Visualisable, Controllable {
 
 		int playerId = getCurrentPlayerId();
 		int nextPlayerId = (playerId % numberOfPlayers) + 1;
-		setCurrentPlayerId(nextPlayerId);
 		return nextPlayerId;
 	}
 
@@ -276,6 +275,9 @@ Visualisable, Controllable {
 			player.move(edge, ticketType);
 			updateDiscardStacks(ticketType, player);
 			updateRound();
+			if (ticketType != Initialisable.TicketType.DoubleMove) {
+				setCurrentPlayerId(getNextPlayerToMove());
+			}
 			return true;
 		}
 
