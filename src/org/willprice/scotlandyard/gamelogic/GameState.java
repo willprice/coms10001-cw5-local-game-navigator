@@ -207,7 +207,7 @@ Visualisable, Controllable {
 		if (currentPlayerId == getMrX().getPlayerId()) {
 			return true;
 		} else {
-			switch(round) {
+			switch(getNumberOfMoves(mrX)) {
 			case 3:
 			case 8:
 			case 13:
@@ -217,6 +217,10 @@ Visualisable, Controllable {
 			}
 		}
 		return false;
+	}
+
+	private int getNumberOfMoves(Player player) {
+		return player.getNumberOfMoves();
 	}
 
 	@Override
