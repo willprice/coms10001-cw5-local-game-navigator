@@ -46,7 +46,6 @@ public class PersistentStore {
 			System.out.println("LoadGame mrX: " + state.getMrX());
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			System.err.println("Could not load save game file");
 			return false;
 		}
