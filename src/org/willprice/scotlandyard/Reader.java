@@ -2,6 +2,7 @@ package org.willprice.scotlandyard;
 
 import java.awt.Point;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.util.*;
 
 import org.willprice.scotlandyard.gamelogic.graph.Edge;
@@ -34,14 +35,14 @@ public class Reader {
 	 * @param filename
 	 *            The filename of the file that contains the graph
 	 * @throws IOException
+	 * @throws URISyntaxException 
 	 */
 	public void read(String filename) throws IOException {
 		// initialise the graph
 		graph = new Graph();
 
 		// load the file
-		File file = new File(filename);
-		Scanner in = new Scanner(file);
+		Scanner in = new Scanner(getClass().getResourceAsStream("/graph.txt"));
 
 		// get the top line
 
@@ -82,8 +83,7 @@ public class Reader {
 	}
 
 	public void readNodeLocations() throws FileNotFoundException {
-		File file = new File("resources/pos.txt");
-		Scanner fileContents = new Scanner(file);
+		Scanner fileContents = new Scanner(getClass().getResourceAsStream("/pos.txt"));
 
 		String topLine = fileContents.nextLine();
 		while (fileContents.hasNextLine()) {

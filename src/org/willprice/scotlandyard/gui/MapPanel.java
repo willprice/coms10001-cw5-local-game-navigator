@@ -60,9 +60,8 @@ public class MapPanel extends JPanel implements MouseListener {
 	}
 
 	private void readImages(String mapFilename) throws IOException {
-		File imageFile = new File(mapFilename);
-		mrXImage = ImageIO.read(new File("resources/mr_x.png"));
-		map = ImageIO.read(imageFile);
+		mrXImage = ImageIO.read(getClass().getResource("/mr_x.png"));
+		map = ImageIO.read(getClass().getResourceAsStream("/" + mapFilename));
 		mapSize = new Dimension(map.getWidth(), map.getHeight());
 	}
 
