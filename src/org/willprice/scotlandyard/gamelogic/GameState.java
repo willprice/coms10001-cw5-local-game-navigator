@@ -260,22 +260,35 @@ Visualisable, Controllable {
 			TicketType ticketType) {
 		Player player = getPlayer(playerId);
 
+		if (playerIsAlreadyOccupyingNode(playerId, targetNodeId)) {
+			return false;
+		}
 		if (!player.hasTicket(Ticket.newTicket(ticketType)) && ticketType != Initialisable.TicketType.SecretMove) {
 			return false;
 		}
 		String currentNodeId = player.getPosition().name();
 		Edge edge = graph.findTraversableEdge(currentNodeId, targetNodeId.toString(), ticketType);
-		
+
 		if (edge != null) {
 			player.move(edge, ticketType);
 			updateDiscardStacks(ticketType, player);
 			updateRound();
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
+	private boolean playerIsAlreadyOccupyingNode(Integer playerId,
+			Integer targetNodeId) {
+		for (Detective detective : detectives) {
+			if (detective.getPosition().name().equals(targetNodeId) & detective.getPlayerId() != playerId) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private void updateRound() {
 		if (isEndOfRound()) {
 			round++;
