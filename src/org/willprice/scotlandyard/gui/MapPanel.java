@@ -30,6 +30,7 @@ public class MapPanel extends JPanel implements MouseListener {
 	private List<Point> detectiveLocations;
 	private Point mrXPosition;
 	private GUI gui;
+	private List<BufferedImage> detectiveImageList;
 
 	private Integer targetNodeId;
 
@@ -37,10 +38,20 @@ public class MapPanel extends JPanel implements MouseListener {
 
 	public MapPanel(String filename, GUI gui) throws IOException {
 		this.gui = gui;
+
+		createDetectiveImageList();
 		readImages(filename);
 		setPreferredSize(mapSize);
 		createSelectTicketFrame();
 		addMouseListener(this);
+	}
+
+	private void createDetectiveImageList() throws IOException {
+		detectiveImageList = new ArrayList<>();
+		detectiveImageList.add(ImageIO.read(getClass().getResource("/red_detective.png")));
+		detectiveImageList.add(ImageIO.read(getClass().getResource("/green_detective.png")));
+		detectiveImageList.add(ImageIO.read(getClass().getResource("/blue_detective.png")));
+		detectiveImageList.add(ImageIO.read(getClass().getResource("/yellow_detective.png")));
 	}
 
 	private void createSelectTicketFrame() {
@@ -51,7 +62,6 @@ public class MapPanel extends JPanel implements MouseListener {
 
 	private void readImages(String mapFilename) throws IOException {
 		File imageFile = new File(mapFilename);
-		detectiveImage = ImageIO.read(new File("resources/red_detective.png"));
 		mrXImage = ImageIO.read(new File("resources/mr_x.png"));
 		map = ImageIO.read(imageFile);
 		mapSize = new Dimension(map.getWidth(), map.getHeight());
@@ -96,10 +106,6 @@ public class MapPanel extends JPanel implements MouseListener {
 		}
 	}
 
-	private void paintDetective(Graphics g, Point detectiveLocation) {
-		paintPlayer(g, detectiveLocation, detectiveImage);
-	}
-
 	private void paintPlayer(Graphics g, Point playerLocation,
 			BufferedImage playerImage) {
 		int width = playerImage.getWidth();
@@ -117,8 +123,9 @@ public class MapPanel extends JPanel implements MouseListener {
 
 	private void paintDetectives(Graphics g) {
 		this.detectiveLocations = getPlayerLocations();
-		for (Point detectiveLocation : detectiveLocations) {
-			paintDetective(g, detectiveLocation);
+		for (int i=0; i < detectiveLocations.size(); ++i) {
+			Point detectiveLocation = detectiveLocations.get(i);
+			paintPlayer(g, detectiveLocation, detectiveImageList.get(i));
 		}
 	}
 
