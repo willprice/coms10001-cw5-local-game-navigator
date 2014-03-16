@@ -42,6 +42,7 @@ Visualisable, Controllable {
 	private PersistentStore store;
 	public int round = 1;
 	private int numberOfRounds = 22;
+	private boolean currentlyTakingDoubleMove = false;
 
 
 	public GameState() throws IOException {
@@ -261,7 +262,10 @@ Visualisable, Controllable {
 	public Boolean movePlayer(Integer playerId, Integer targetNodeId,
 			TicketType ticketType) {
 		Player player = getPlayer(playerId);
-
+		
+		if (ticketType == Initialisable.TicketType.DoubleMove) {
+			currentlyTakingDoubleMove = true;
+		}
 		if (detectiveOccupyingNode(targetNodeId)) {
 			return false;
 		}
@@ -276,7 +280,12 @@ Visualisable, Controllable {
 			updateDiscardStacks(ticketType, player);
 			updateRound();
 			if (ticketType != Initialisable.TicketType.DoubleMove) {
-				setCurrentPlayerId(getNextPlayerToMove());
+				if (!currentlyTakingDoubleMove) {
+					setCurrentPlayerId(getNextPlayerToMove());
+
+				} else {
+					currentlyTakingDoubleMove = false;
+				}
 			}
 			return true;
 		}

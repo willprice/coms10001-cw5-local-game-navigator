@@ -32,7 +32,7 @@ public class PersistentStore {
 		try {
 			FileReader reader = new FileReader(filename);
 			ObjectInputStream in = xstream.createObjectInputStream(reader);
-			state.setCurrentPlayerId((int) in.readObject() - 1);
+			state.setCurrentPlayerId((int) in.readObject());
 			state.setRound((Integer) in.readObject());
 			state.setNumberOfDetectives((Integer) in.readObject());
 			state.setDetectives((List<Detective>) in.readObject());

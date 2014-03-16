@@ -15,7 +15,7 @@ public class Game {
 	}
 
 	public void run(GameState gameState) throws IOException {
-		GameState state = new GameState(3);
+		GameState state = new GameState(1);
 		SwingUtilities.invokeLater(new GUI(state));
 	}
 }

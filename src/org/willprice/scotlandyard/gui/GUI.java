@@ -51,11 +51,6 @@ public class GUI extends GameVisualiser {
 		displayWindow();
 	}
 
-	public void updateGlobalStateAndUpdateCurrentPlayer() {
-		setCurrentPlayerId(getVisualisable().getNextPlayerToMove());
-		updateGlobalState();
-	}
-
 	public void updateGlobalState() {
 		mapPanel.redraw();
 		mrXMovesPanel.drawTickets(getVisualisable().getMoveList(getMrXId()));
@@ -209,6 +204,11 @@ public class GUI extends GameVisualiser {
 
 	public JFrame getWindow() {
 		return window;
+	}
+
+	public void updateGlobalStateAndGetNextPlayerToMove() {
+		updateCurrentPlayer();
+		updateGlobalState();
 	}
 
 }
