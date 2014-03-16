@@ -67,14 +67,13 @@ public class GUI extends GameVisualiser {
 	}
 
 	private void winGame() {
-		System.out.println("Game over");
 		Integer winner = getVisualisable().getWinningPlayerId();
 		JFrame winningWindow = new JFrame();
 		String message;
 		if (winner == getMrXId()) {
 			message = "Well Done Mr X. You outwitted the detectives!";
 		} else {
-			message = "You clever sons of bitches, you got Mr X!";
+			message = "You clever players!, you got Mr X!";
 		}
 		winningWindow.add(new JLabel(message));
 		winningWindow.pack();

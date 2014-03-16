@@ -43,7 +43,6 @@ public class PersistentStore {
 			state.setPlayers(players);
 			state.setMrXIdList((List<Integer>) in.readObject());
 			in.close();
-			System.out.println("LoadGame mrX: " + state.getMrX());
 
 		} catch (Exception e) {
 			System.err.println("Could not load save game file");
