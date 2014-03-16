@@ -39,7 +39,7 @@ Visualisable, Controllable {
 	private int currentPlayerId = 1;
 	private PersistentStore store;
 	public int round = 1;
-	private int numberOfRounds = 23;
+	private int numberOfRounds = 22;
 
 
 	public GameState() throws IOException {
