@@ -86,8 +86,7 @@ public class GUI extends GameVisualiser {
 
 	void drawMapPanel() {
 		try {
-			String mapPath = "resources/" + getMapVisualisable().getMapFilename();
-			setMapPanel(new MapPanel(mapPath, this));
+			setMapPanel(new MapPanel(getMapVisualisable().getMapFilename(), this));
 			drawMapScrollPane();
 		} catch (IOException e) {
 			e.printStackTrace();

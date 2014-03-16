@@ -1,7 +1,9 @@
 package org.willprice.scotlandyard.gamelogic;
 
 import java.awt.Point;
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +46,7 @@ Visualisable, Controllable {
 
 	public GameState() throws IOException {
 		Reader reader = new Reader();
-		reader.read("resources/graph.txt");
+		reader.read("graph.txt");
 		reader.readNodeLocations();
 		graph = reader.graph();
 		nodeLocations = reader.getNodeLocations();
