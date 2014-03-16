@@ -40,7 +40,7 @@ public class InformationPanel extends JPanel implements ActionListener {
 		setLayout(layout);
 		
 		buttonsAndLabelPanel = new JPanel(new MigLayout(new LC().wrapAfter(2).flowX(), null, null));
-		playerTicketsPanel = new JPanel(new MigLayout(new LC().wrapAfter(3).flowY(), null, null)); 
+		playerTicketsPanel = new JPanel(new MigLayout(new LC().wrapAfter(3).flowY().gridGapX("20%"), null, null)); 
 		
 		createPersistenceButtons();
 		createCurrentPlayerLabel();

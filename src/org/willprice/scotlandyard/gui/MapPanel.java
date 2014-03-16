@@ -25,7 +25,6 @@ public class MapPanel extends JPanel implements MouseListener {
 	private SelectTicketFrame selectTicketFrame;
 	private BufferedImage map;
 	private BufferedImage mrXImage;
-	private BufferedImage detectiveImage;
 	private Dimension mapSize;
 	private List<Point> detectiveLocations;
 	private Point mrXPosition;

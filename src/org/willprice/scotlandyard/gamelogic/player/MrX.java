@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.willprice.scotlandyard.gamelogic.GameState;
 import org.willprice.scotlandyard.gamelogic.Initialisable.TicketType;
 import org.willprice.scotlandyard.gamelogic.graph.Edge;
 import org.willprice.scotlandyard.gamelogic.tickets.BlackTicket;

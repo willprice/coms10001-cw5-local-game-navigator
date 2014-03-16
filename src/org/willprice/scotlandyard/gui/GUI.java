@@ -76,13 +76,11 @@ public class GUI extends GameVisualiser {
 
 	private void drawMrXMovesPanel() {
 		mrXMovesPanel = new MrXMovesPanel();
-		mrXMovesPanel.setBackground(new Color(0, 0, 244));
 		panel.add(mrXMovesPanel, new CC().growX().growY().spanY(2).width("20%"));
 	}
 
 	private void drawInformationPanel() {
 		informationPanel = new InformationPanel(this);
-//		informationPanel.setBackground(new Color(244, 0, 0));
 		informationPanel.updateAndRedraw();
 		panel.add(informationPanel, new CC().growX().height("20%"));
 	}
