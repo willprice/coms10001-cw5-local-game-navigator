@@ -131,6 +131,6 @@ public class InformationPanel extends JPanel implements ActionListener {
 
 	private void loadGame(String filename) {
 		gui.getControllable().loadGame(filename);
-		gui.updateGlobalState();
+		gui.updateGlobalStateAndUpdateCurrentPlayer();
 	}
 }

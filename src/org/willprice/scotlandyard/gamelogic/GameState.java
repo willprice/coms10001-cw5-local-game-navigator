@@ -41,7 +41,7 @@ Visualisable, Controllable {
 	private int currentPlayerId = 1;
 	private PersistentStore store;
 	public int round = 1;
-	private int numberOfRounds = 23;
+	private int numberOfRounds = 22;
 
 
 	public GameState() throws IOException {
@@ -209,7 +209,7 @@ Visualisable, Controllable {
 		if (currentPlayerId == getMrX().getPlayerId()) {
 			return true;
 		} else {
-			switch(round) {
+			switch(getNumberOfMoves(mrX)) {
 			case 3:
 			case 8:
 			case 13:
@@ -219,6 +219,10 @@ Visualisable, Controllable {
 			}
 		}
 		return false;
+	}
+
+	private int getNumberOfMoves(Player player) {
+		return player.getNumberOfMoves();
 	}
 
 	@Override
@@ -257,9 +261,6 @@ Visualisable, Controllable {
 	public Boolean movePlayer(Integer playerId, Integer targetNodeId,
 			TicketType ticketType) {
 		Player player = getPlayer(playerId);
-		System.out.println("Moving player: " + player);
-		System.out.println("State MrX TaxiTickets: " + mrX.taxiTicketDiscardStack + "\n");
-		System.out.println("Player has " + ticketType + "-type ticket? " + player.hasTicket(Ticket.newTicket(ticketType)));
 
 		if (!player.hasTicket(Ticket.newTicket(ticketType)) && ticketType != Initialisable.TicketType.SecretMove) {
 			return false;
@@ -289,7 +290,6 @@ Visualisable, Controllable {
 
 	private void updateDiscardStacks(TicketType ticketType, Player player) {
 		if (player.getClass() != MrX.class) {
-			System.out.println("Adding tickets to MrX: " + getMrX());
 			addTicketToDiscardStack(ticketType);
 		}
 	}
@@ -300,7 +300,6 @@ Visualisable, Controllable {
 
 	public boolean edgeCanBeTraversedByTicket(EdgeType edgeType,
 			TicketType ticketType) {
-		System.out.println(edgeType.toString() + " " + ticketType.toString());
 		return edgeType.toString().equals(ticketType.toString());
 	}
 

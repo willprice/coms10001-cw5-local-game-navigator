@@ -11,16 +11,11 @@ public class Game {
 
 	public static void main(String[] args) throws IOException {
 		Game game = new Game();
-		game.run();
+		game.run(null);
 	}
 
-	public void run() throws IOException {
+	public void run(GameState gameState) throws IOException {
 		GameState state = new GameState(3);
-		GUI gui = new GUI();
-		gui.registerMapVisualisable(state);
-		gui.registerPlayerVisualisable(state);
-		gui.registerControllable(state);
-		gui.registerVisualisable(state);
-		SwingUtilities.invokeLater(gui);
+		SwingUtilities.invokeLater(new GUI(state));
 	}
 }

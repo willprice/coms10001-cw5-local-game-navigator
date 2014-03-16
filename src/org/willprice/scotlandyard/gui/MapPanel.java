@@ -145,11 +145,11 @@ public class MapPanel extends JPanel implements MouseListener {
 		} else { 
 			Boolean moveSuccess = moveCurrentPlayer(targetNodeId, ticket.getTicketType());
             if (moveSuccess && currentlyTakingDoubleMove == false) {
-                gui.updateGlobalState();
+                gui.updateGlobalStateAndUpdateCurrentPlayer();
             } else if (moveSuccess == false) {
                 new MoveErrorFrame();
-            } else if (moveSuccess && currentlyTakingDoubleMove == true) {
-            	gui.updateGlobalStateWithoutIncrementingPlayerId();
+            } else if (moveSuccess && currentlyTakingDoubleMove) {
+            	gui.updateGlobalState();
             	currentlyTakingDoubleMove = false;
             }
         }

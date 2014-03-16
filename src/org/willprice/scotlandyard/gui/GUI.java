@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import org.willprice.scotlandyard.gamelogic.Controllable;
+import org.willprice.scotlandyard.gamelogic.GameState;
 import org.willprice.scotlandyard.gamelogic.GameVisualiser;
 import org.willprice.scotlandyard.gamelogic.MapVisualisable;
 import org.willprice.scotlandyard.gamelogic.PlayerVisualisable;
@@ -32,6 +33,13 @@ public class GUI extends GameVisualiser {
 	private InformationPanel informationPanel;
 	private MrXMovesPanel mrXMovesPanel;
 
+	public GUI(GameState state) {
+		registerMapVisualisable(state);
+		registerPlayerVisualisable(state);
+		registerControllable(state);
+		registerVisualisable(state);
+	}
+
 	@Override
 	public void run() {
 		setCurrentPlayerId(getVisualisable().getMrXIdList().get(0));
@@ -43,12 +51,12 @@ public class GUI extends GameVisualiser {
 		displayWindow();
 	}
 
-	public void updateGlobalState() {
+	public void updateGlobalStateAndUpdateCurrentPlayer() {
 		setCurrentPlayerId(getVisualisable().getNextPlayerToMove());
-		updateGlobalStateWithoutIncrementingPlayerId();
+		updateGlobalState();
 	}
 	
-	public void updateGlobalStateWithoutIncrementingPlayerId() {
+	public void updateGlobalState() {
 		mapPanel.redraw();
 		mrXMovesPanel.drawTickets(getVisualisable().getMoveList(getMrXId()));
 		informationPanel.updateAndRedraw();
@@ -58,14 +66,13 @@ public class GUI extends GameVisualiser {
 	}
 
 	private void winGame() {
-		System.out.println("Game over");
 		Integer winner = getVisualisable().getWinningPlayerId();
 		JFrame winningWindow = new JFrame();
 		String message;
 		if (winner == getMrXId()) {
 			message = "Well Done Mr X. You outwitted the detectives!";
 		} else {
-			message = "You clever sons of bitches, you got Mr X!";
+			message = "You clever players!, you got Mr X!";
 		}
 		winningWindow.add(new JLabel(message));
 		winningWindow.pack();

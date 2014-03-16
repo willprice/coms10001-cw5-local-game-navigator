@@ -149,7 +149,6 @@ public class Graph {
 	}
 
 	public boolean edgeCanBeTraversedByTicket(EdgeType edgeType, TicketType ticketType) {
-		System.out.println(edgeType.toString() + " " + ticketType.toString());
 		return ticketType == TicketType.SecretMove ? true : edgeType.toString().equals(ticketType.toString());
 	}
 }

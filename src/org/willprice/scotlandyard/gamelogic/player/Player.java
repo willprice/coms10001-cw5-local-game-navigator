@@ -57,5 +57,9 @@ public abstract class Player {
 
 	abstract public boolean hasTicket(Ticket ticket);
 
-	abstract public int getNumberOfTickets(Initialisable.TicketType type); 
+	abstract public int getNumberOfTickets(Initialisable.TicketType type);
+
+	public int getNumberOfMoves() {
+		return moves.size();
+	} 
 }
