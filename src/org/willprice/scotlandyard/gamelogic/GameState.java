@@ -283,8 +283,8 @@ Visualisable, Controllable {
 	}
 
 	private boolean detectiveOccupyingNode(Integer targetNodeId) {
-		for (Player detective : getPlayers()) {
-			if (detective.getPosition().name().equals(targetNodeId)) {
+		for (Player detective : getDetectives()) {
+			if (detective.getPosition().equals(graph.find(targetNodeId))) {
 				return true;
 			}
 		}
