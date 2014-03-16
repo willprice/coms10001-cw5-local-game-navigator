@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.willprice.scotlandyard.gamelogic.GameState;
@@ -37,10 +38,13 @@ public class PersistentStore {
 			state.setNumberOfDetectives((Integer) in.readObject());
 			state.setDetectives((List<Detective>) in.readObject());
 			state.setMrX((MrX) in.readObject());
+			List<Player> players = new ArrayList<>();
+			players.add(state.getMrX());
+			players.addAll(state.getDetectives());
+			state.setPlayers(players);
 			state.setMrXIdList((List<Integer>) in.readObject());
-			state.setPlayers((List<Player>) in.readObject());
 			in.close();
-			System.out.println("LoadGame mrX: " + state.getMrX().taxiTicketDiscardStack);
+			System.out.println("LoadGame mrX: " + state.getMrX());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,7 +69,6 @@ public class PersistentStore {
 			out.writeObject(state.getDetectives());
 			out.writeObject(state.getMrX());
 			out.writeObject(state.getMrXIdList());
-			out.writeObject(state.getPlayers());
 			out.close();
 		} catch (Exception e) {
 			System.err.println("Could not write save game file");

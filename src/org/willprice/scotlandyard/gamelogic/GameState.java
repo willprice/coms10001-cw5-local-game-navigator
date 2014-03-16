@@ -255,8 +255,8 @@ Visualisable, Controllable {
 			TicketType ticketType) {
 		Player player = getPlayer(playerId);
 		System.out.println("Moving player: " + player);
-		System.out.println("Player has " + ticketType + "-type ticket? " + player.hasTicket(Ticket.newTicket(ticketType)));
 		System.out.println("State MrX TaxiTickets: " + mrX.taxiTicketDiscardStack + "\n");
+		System.out.println("Player has " + ticketType + "-type ticket? " + player.hasTicket(Ticket.newTicket(ticketType)));
 
 		if (!player.hasTicket(Ticket.newTicket(ticketType))) {
 			return false;
