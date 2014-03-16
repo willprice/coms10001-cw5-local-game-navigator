@@ -9,7 +9,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 
+import org.willprice.scotlandyard.gamelogic.tickets.BlackTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.BusTicket;
+import org.willprice.scotlandyard.gamelogic.tickets.DoubleMoveTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.TaxiTicket;
 import org.willprice.scotlandyard.gamelogic.tickets.Ticket;
 import org.willprice.scotlandyard.gamelogic.tickets.UndergroundTicket;
@@ -20,6 +22,8 @@ public class SelectTicketFrame extends JFrame implements ActionListener {
 	private JButton taxiTicketButton;
 	private JButton busTicketButton;
 	private JButton tubeTicketButton;
+	private JButton doubleMoveButton;
+	private JButton secretMoveButton;
 
 	private GUI gui;
 
@@ -44,8 +48,31 @@ public class SelectTicketFrame extends JFrame implements ActionListener {
 				"/tube_ticket.png")));
 		tubeTicketButton.addActionListener(this);
 		panel.add(tubeTicketButton);
+		
+		doubleMoveButton = new JButton(new ImageIcon(getClass().getResource(
+				"/double_move_ticket.png")));
+		doubleMoveButton.addActionListener(this);
+		panel.add(doubleMoveButton);
+		
+		secretMoveButton = new JButton(new ImageIcon(getClass().getResource(
+				"/black_ticket.png")));
+		secretMoveButton.addActionListener(this);
+		panel.add(secretMoveButton);
 	}
-
+	
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (gui.getCurrentPlayerId() == gui.getMrXId()) {
+			doubleMoveButton.setVisible(true);
+			secretMoveButton.setVisible(true);
+		} else {
+			doubleMoveButton.setVisible(false);
+			secretMoveButton.setVisible(false);
+		}
+		pack();
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object button = e.getSource();
@@ -56,6 +83,10 @@ public class SelectTicketFrame extends JFrame implements ActionListener {
 			ticket = new BusTicket();
 		} else if (button.equals(tubeTicketButton)) {
 			ticket = new UndergroundTicket();
+		} else if (button.equals(doubleMoveButton)) {
+			ticket = new DoubleMoveTicket();
+		} else if (button.equals(secretMoveButton)) {
+			ticket = new BlackTicket();
 		}
 		setVisible(false);
 		gui.getMapPanel().movePlayer(ticket);

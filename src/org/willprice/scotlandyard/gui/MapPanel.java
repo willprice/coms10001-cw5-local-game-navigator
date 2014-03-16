@@ -36,8 +36,14 @@ public class MapPanel extends JPanel implements MouseListener {
 		this.gui = gui;
 		readImages(filename);
 		setPreferredSize(mapSize);
-		selectTicketFrame = new SelectTicketFrame(gui);
+		createSelectTicketFrame();
 		addMouseListener(this);
+	}
+
+	private void createSelectTicketFrame() {
+		selectTicketFrame = new SelectTicketFrame(gui);
+        selectTicketFrame.setLocationRelativeTo(null);
+		selectTicketFrame.pack();
 	}
 
 	private void readImages(String mapFilename) throws IOException {
