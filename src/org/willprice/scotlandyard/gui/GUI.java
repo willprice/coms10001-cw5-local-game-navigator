@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import org.willprice.scotlandyard.gamelogic.Controllable;
+import org.willprice.scotlandyard.gamelogic.GameState;
 import org.willprice.scotlandyard.gamelogic.GameVisualiser;
 import org.willprice.scotlandyard.gamelogic.MapVisualisable;
 import org.willprice.scotlandyard.gamelogic.PlayerVisualisable;
@@ -32,6 +33,13 @@ public class GUI extends GameVisualiser {
 	int targetNodeId;
 	private InformationPanel informationPanel;
 	private MrXMovesPanel mrXMovesPanel;
+
+	public GUI(GameState state) {
+		registerMapVisualisable(state);
+		registerPlayerVisualisable(state);
+		registerControllable(state);
+		registerVisualisable(state);
+	}
 
 	@Override
 	public void run() {
